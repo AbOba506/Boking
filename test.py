@@ -1,5 +1,6 @@
 import tkinter as tk
 
+
 def get_entry():
     value = name.get()
     if value:
