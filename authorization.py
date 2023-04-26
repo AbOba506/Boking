@@ -11,7 +11,7 @@ window_auth = Tk()
 # заголовок окна
 window_auth.title('Авторизация')
 # размер окна
-window_auth.geometry('450x230')
+window_auth.geometry('450x230+400+150')
 # менять размер
 window_auth.resizable(False, False)
 
