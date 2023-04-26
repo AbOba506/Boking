@@ -9,7 +9,7 @@ def reg():
     # заголовок окна
     window_reg.title('Регистрация')
     # размер окна
-    window_reg.geometry('450x230')
+    window_reg.geometry('450x230+400+150')
     # менять размер
     window_reg.resizable(False, False)
 
