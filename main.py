@@ -58,13 +58,27 @@ def main():
             # менять размер
             window_pay.resizable(False, False)
 
+            myusername = open('myusername.txt', '+r')
+            header_padding_1 = {'padx': 10, 'pady': 7}
+            line = myusername.readline()
+            username_in_file, password_in_file, name, age, driving_experience, criminal, phone, email, card = line.split()
+
             # настройка
             pay_label = Label(window_pay, text='Оплата', font=font_header, justify=CENTER, **header_padding)
             pay_label.grid(row=0, column=1)
+
+            # метка номер карты
+            card_label = Label(window_pay, text='Номер карты', font=('Arial', 12), **header_padding_1)
+            card_label.grid(row=1, column=0)
+            # номер карты
+            card_entry = Label(window_pay, text=card, font=('Arial', 12), **header_padding_1)
+            card_entry.grid(row=1, column=1)
+
             pay_button_out = Button(window_pay, text='Выйти', command=exit_pay, borderwidth=5, width=10)
             pay_button_out.grid(row=0, column=2)
-            window_pay.grid_columnconfigure(0, minsize=100)
-            window_pay.grid_columnconfigure(1, minsize=250)
+
+            window_pay.grid_columnconfigure(0, minsize=80)
+            window_pay.grid_columnconfigure(1, minsize=200)
 
 
             # главный цикл
@@ -85,14 +99,36 @@ def main():
             window_cd.geometry('450x230+400+150')
             # менять размер
             window_cd.resizable(False, False)
+            myusername = open('myusername.txt', '+r')
+            header_padding_1 = {'padx': 10, 'pady': 7}
+
+            line = myusername.readline()
+            username_in_file, password_in_file, name, age, driving_experience, criminal, phone, email, card = line.split() 
 
             # настройка
             cd_label = Label(window_cd, text='Контактные данные', font=font_header, justify=CENTER, **header_padding)
             cd_label.grid(row=0, column=1)
             cd_button_out = Button(window_cd, text='Выйти', command=exit_cd, borderwidth=5, width=10)
             cd_button_out.grid(row=0, column=2)
-            window_cd.grid_columnconfigure(0, minsize=100)
-            window_cd.grid_columnconfigure(1, minsize=250)
+
+            # метка номер телефона
+            phone_label = Label(window_cd, text='Номер телефона', font=('Arial', 12), **header_padding_1)
+            phone_label.grid(row=1, column=0)
+
+            # номер телефона
+            phone_entry = Label(window_cd, text=phone, font=('Arial', 12), **header_padding_1)
+            phone_entry.grid(row=1, column=1)
+
+            # метка E-mail
+            email_label = Label(window_cd, text='E-mail', font=('Arial', 12), **header_padding_1)
+            email_label.grid(row=2, column=0)
+
+            # E-mail
+            email_entry = Label(window_cd, text=email, font=('Arial', 12), **header_padding_1)
+            email_entry.grid(row=2, column=1)
+
+            window_cd.grid_columnconfigure(0, minsize=80)
+            window_cd.grid_columnconfigure(1, minsize=200)
 
             # главный цикл
             window_cd.mainloop()
@@ -120,7 +156,7 @@ def main():
             # Имя
             pd_label1 = Label(window_pd, text='Имя', font=font_text, **header_padding)
             pd_label1.grid(row=1, column=0)
-            login, password, name, age, driving_experience, criminal = myusername.readline().split()
+            login, password, name, age, driving_experience, criminal, phone, email, card = myusername.readline().split()
             pd_label7 = Label(window_pd, text=name, font=font_text, **header_padding)
             pd_label7.grid(row=1, column=1)
             # Логин
@@ -144,9 +180,8 @@ def main():
             pd_label10 = Label(window_pd, text=driving_experience, font=font_text, **header_padding)
             pd_label10.grid(row=5, column=1)
             # судимость
-            pd_label6 = Label(window_pd, text='судимость', font=font_text, justify=CENTER, **header_padding)
+            pd_label6 = Label(window_pd, text='Cудимость', font=font_text, justify=CENTER, **header_padding)
             pd_label6.grid(row=6, column=0)
-            criminal = "Судимость"
             pd_label9 = Label(window_pd, text=criminal, font=font_text, **header_padding)
             pd_label9.grid(row=6, column=1)
             # Выйти
@@ -202,25 +237,25 @@ def main():
 
     # Домашняя страница
     win = tk.Tk()
-    h = 600
-    w = 400
-    win.geometry(f"{h}x{w}+400+150")
+    win.geometry("450x230+400+150")
     photo = tk.PhotoImage(file='photo.png')
     win.iconphoto(False, photo)
     win.title("Система Бронирования")
     win.resizable(False, False)
 
-    # Главные кнопки
-    btn1 = tk.Button(win, text='Главная', command=main_page, font=('Arial', 15, 'bold'), )
-    btn1.grid(row=0, column=0)
-    btn2 = tk.Button(win, text='Личный кабинет', command=lk, font=('Arial', 15, 'bold'), )
-    btn2.grid(row=0, column=1)
-    btn3 = tk.Button(win, text='Ассортимент', font=('Arial', 15, 'bold'), )
-    btn3.grid(row=0, column=2)
+    bron_label = Label(win, text='Бронирование', font=('Arial', 15, 'bold'), justify=CENTER, **header_padding)
+    bron_label.grid(row=0, column=1)
 
-    win.grid_columnconfigure(0, minsize=100)
-    win.grid_columnconfigure(1, minsize=300)
+    # Главные кнопки
+    btn1 = tk.Button(win, text='Главная', command=main_page, font=('Arial', 15, 'bold'), borderwidth=5, width=15)
+    btn1.grid(row=1, column=0)
+    btn2 = tk.Button(win, text='Личный кабинет', command=lk, font=('Arial', 15, 'bold'), borderwidth=5, width=15)
+    btn2.grid(row=2, column=0)
+    btn3 = tk.Button(win, text='Ассортимент', font=('Arial', 15, 'bold'), borderwidth=5, width=15)
+    btn3.grid(row=3, column=0)
+
+    win.grid_rowconfigure(2, minsize=60)
+
 
 
     win.mainloop()
-
