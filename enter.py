@@ -10,7 +10,7 @@ def ent():
     # заголовок окна
     window_ent.title('Авторизация')
     # размер окна
-    window_ent.geometry('450x230')
+    window_ent.geometry('450x230+400+150')
     # менять размер
     window_ent.resizable(False, False)
 
