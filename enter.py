@@ -36,10 +36,9 @@ def ent():
             if (username == username_in_file and password == password_in_file):
                 window_ent.destroy()
                 myusername.write(username + ' ' + password + ' ' + name + ' ' +  age + ' ' + driving_experience + ' ' + criminal + ' ' + phone + ' ' + email + ' ' + card + ' ')
-            else: 
-                s+=1
-        if (s != 0):
-            messagebox.showerror('Ошибка','Неправильный логин или пароль')
+            elif (username != username_in_file or password != password_in_file):
+                messagebox.showerror('Ошибка','Неправильный логин или пароль')
+                break
         output.close()
         myusername.close()
         
