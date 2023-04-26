@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import messagebox
 import re
 import tkinter as tk
+from main import main
 
 def ent():
     # главное окно приложения
@@ -23,6 +24,7 @@ def ent():
 
     def clicked():
         output = open('logins.txt','r')
+        myusername = open('myusername.txt', '+r')
         username = username_entry.get()
         password = password_entry.get()
         while True:
@@ -30,14 +32,16 @@ def ent():
             line =  output.readline()
             if not line:
                 break
-            username_in_file, password_in_file = line.split() 
+            username_in_file, password_in_file, name, age, driving_experience, criminal, phone, email, card  = line.split() 
             if (username == username_in_file and password == password_in_file):
                 window_ent.destroy()
-                break
-            elif (username != username_in_file or password != password_in_file):
-                messagebox.showerror('Ошибка','Неправильный логин или пароль')
-                break
+                myusername.write(username + ' ' + password + ' ' + name + ' ' +  age + ' ' + driving_experience + ' ' + criminal + ' ' + phone + ' ' + email + ' ' + card + ' ')
+            else: 
+                s+=1
+        if (s != 0):
+            messagebox.showerror('Ошибка','Неправильный логин или пароль')
         output.close()
+        myusername.close()
         
     # настройка
     main_label = Label(window_ent, text='Вход', font=font_header, justify=CENTER, **header_padding)
@@ -66,4 +70,4 @@ def ent():
 
     # главный цикл
     window_ent.mainloop()
-       
+    main()
