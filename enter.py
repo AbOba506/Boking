@@ -23,22 +23,26 @@ def ent():
     header_padding = {'padx': 10, 'pady': 12}
 
     def clicked():
-        output = open('logins.txt','r')
+        output = open('logins.txt','+r')
         myusername = open('myusername.txt', '+r')
         username = username_entry.get()
         password = password_entry.get()
+        s1 = 0
+        s2 = 0
         while True:
-            s = 0
             line =  output.readline()
             if not line:
                 break
             username_in_file, password_in_file, name, age, driving_experience, criminal, phone, email, card  = line.split() 
             if (username == username_in_file and password == password_in_file):
                 window_ent.destroy()
+                s1 = 1
+                main()
                 myusername.write(username + ' ' + password + ' ' + name + ' ' +  age + ' ' + driving_experience + ' ' + criminal + ' ' + phone + ' ' + email + ' ' + card + ' ')
-            elif (username != username_in_file or password != password_in_file):
-                messagebox.showerror('Ошибка','Неправильный логин или пароль')
-                break
+            else:
+                s2 = 0
+        if (s1 == 0 and s2 ==0 ):
+            messagebox.showerror('Ошибка','Неправильный логин или пароль')
         output.close()
         myusername.close()
         
@@ -69,4 +73,4 @@ def ent():
 
     # главный цикл
     window_ent.mainloop()
-    main()
+   
