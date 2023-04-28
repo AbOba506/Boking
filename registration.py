@@ -3,8 +3,7 @@ from tkinter import *
 from tkinter import messagebox
 import re
 import tkinter as tk
-from main import main
-from enter import ent
+from enter import Enter
 
 # шрифты и отступы
 font_header = ('Arial', 15)
@@ -12,115 +11,87 @@ font_entry = ('Arial', 12)
 label_font = ('Arial', 11)
 base_padding = {'padx': 10, 'pady': 8}
 header_padding = {'padx': 10, 'pady': 12}
+header_padding_1 = {'padx': 10, 'pady': 7}
 
+class Data:
+    def __init__(self):
+        self.root = Tk()
+        self.root.title('Авторизация')
+        self.root.geometry('450x330+400+150')
+        self.root.resizable=(False, False)
+    # Виджеты
+        self.data_label = Label(self.root, text='Заполнение данных', font=('Arial', 12), justify=CENTER, **header_padding_1)
+        self.name_label = Label(self.root, text='Имя', font=('Arial', 12), **header_padding_1)
+        self.name_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12))
+        self.age_label = Label(self.root, text='Возраст', font=('Arial', 12), **header_padding_1)
+        self.age_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12))
+        self.driving_experience_label = Label(self.root, text='Опыт Вождения', font=('Arial', 12), **header_padding_1)
+        self.driving_experience_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12))
+        self.criminal_label = Label(self.root, text='Судимость', font=('Arial', 12), **header_padding_1)
+        self.criminal_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12))
+        self.phone_label = Label(self.root, text='Номер телефона', font=('Arial', 12), **header_padding_1)
+        self.phone_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12))
+        self.email_label = Label(self.root, text='E-mail', font=('Arial', 12), **header_padding_1)
+        self.email_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12))
+        self.card_label = Label(self.root, text='Card', font=('Arial', 12), **header_padding_1)
+        self.card_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12))
+        self.send_btn = Button(self.root, text='Заполнить данные', command=self.data_clicked)
 
-def data():
-    # функция нажатия кнопки заполнить данные
-    def data_clicked():
+    def draw_widjets(self):
+        self.data_label.grid(row=0, column=1)
+        self.name_label.grid(row=1, column=0)
+        self.name_entry.grid(row=1, column=1)
+        self.age_label.grid(row=2, column=0)
+        self.age_entry.grid(row=2, column=1)
+        self.driving_experience_label.grid(row=3, column=0)
+        self.driving_experience_entry.grid(row=3, column=1)
+        self.criminal_label.grid(row=4, column=0)
+        self.criminal_entry.grid(row=4, column=1)
+        self.phone_label.grid(row=5, column=0)
+        self.phone_entry.grid(row=5, column=1)
+        self.email_label.grid(row=6, column=0)
+        self.email_entry.grid(row=6, column=1)
+        self.card_label.grid(row=7, column=0)
+        self.card_entry.grid(row=7, column=1)
+        self.send_btn.grid(row=8, column=1)
+
+    def run(self):
+        self.draw_widjets()
+        self.root.mainloop()
+
+    def data_clicked(self):
         rez = open('logins.txt', 'a')
-        name = name_entry.get()
-        age = age_entry.get()
-        driving_experience = driving_experience_entry.get()
-        criminal = criminal_entry.get()
-        phone = phone_entry.get()
-        email = email_entry.get()
-        card  = card_entry.get()
+        name = self.name_entry.get()
+        age = self.age_entry.get()
+        driving_experience = self.driving_experience_entry.get()
+        criminal = self.criminal_entry.get()
+        phone = self.phone_entry.get()
+        email = self.email_entry.get()
+        card  = self.card_entry.get()
         s = ' ' + name + ' ' + age + ' ' + driving_experience + ' ' + criminal + ' ' + phone + ' ' + email + ' ' + card + '\n'
         rez.write(s)
         rez.close()
-        window_data.destroy()
-    header_padding_1 = {'padx': 10, 'pady': 7}
-    # главное окно приложения
-    window_data = Tk()
-    # заголовок окна
-    window_data.title('Регистрация')
-    # размер окна
-    window_data.geometry('450x330+400+150')
-    # менять размер
-    window_data.resizable(False, False)
-        
-    # настройка
-    data_label = Label(window_data, text='Заполнение данных', font=('Arial', 12), justify=CENTER, **header_padding_1)
-    data_label.grid(row=0, column=1)
+        self.root.destroy()
 
-    # метка для имени
-    name_label = Label(window_data, text='Имя', font=('Arial', 12), **header_padding_1)
-    name_label.grid(row=1, column=0)
+class Registration:
+    def __init__(self):
+        self.root = Tk()
+        self.root.title('Авторизация')
+        self.root.geometry('450x230+400+150')
+        self.root.resizable=(False, False)
 
-    # поле имя
-    name_entry = Entry(window_data, bg='#fff', fg='#444', font=('Arial', 12))
-    name_entry.grid(row=1, column=1)
+        self.main_label = Label(self.root, text='Регистрация', font=font_header, justify=CENTER, **header_padding)
+        self.username_label = Label(self.root, text='Имя пользователя', font=label_font , **base_padding)
+        self.username_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry)
+        self.password_label = Label(self.root, text='Пароль', font=label_font , **base_padding)
+        self.password_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry, show='*')
+        self.send_btn = Button(self.root, text='Зарегистрироваться', command=self.clicked)
 
-    # метка возраста
-    age_label = Label(window_data, text='Возраст', font=('Arial', 12), **header_padding_1)
-    age_label.grid(row=2, column=0)
-
-    # возраст
-    age_entry = Entry(window_data, bg='#fff', fg='#444', font=('Arial', 12))
-    age_entry.grid(row=2, column=1)
-
-    # метка опыта вождения
-    driving_experience_label = Label(window_data, text='Опыт Вождения', font=('Arial', 12), **header_padding_1)
-    driving_experience_label.grid(row=3, column=0)
-
-    # опыт вождения
-    driving_experience_entry = Entry(window_data, bg='#fff', fg='#444', font=('Arial', 12))
-    driving_experience_entry.grid(row=3, column=1)
-
-    # метка Судимость
-    criminal_label = Label(window_data, text='Судимость', font=('Arial', 12), **header_padding_1)
-    criminal_label.grid(row=4, column=0)
-
-    # Судимость
-    criminal_entry = Entry(window_data, bg='#fff', fg='#444', font=('Arial', 12))
-    criminal_entry.grid(row=4, column=1)
-
-    # метка номер телефона
-    phone_label = Label(window_data, text='Номер телефона', font=('Arial', 12), **header_padding_1)
-    phone_label.grid(row=5, column=0)
-
-    # номер телефона
-    phone_entry = Entry(window_data, bg='#fff', fg='#444', font=('Arial', 12))
-    phone_entry.grid(row=5, column=1)
-
-    # метка E-mail
-    email_label = Label(window_data, text='E-mail', font=('Arial', 12), **header_padding_1)
-    email_label.grid(row=6, column=0)
-
-    # E-mail
-    email_entry = Entry(window_data, bg='#fff', fg='#444', font=('Arial', 12))
-    email_entry.grid(row=6, column=1)
-
-    # метка номер карты
-    card_label = Label(window_data, text='Card', font=('Arial', 12), **header_padding_1)
-    card_label.grid(row=7, column=0)
-
-    # номер карты
-    card_entry = Entry(window_data, bg='#fff', fg='#444', font=('Arial', 12))
-    card_entry.grid(row=7, column=1)
-
-    # кнопка Заполнить данные
-    send_btn = Button(window_data, text='Заполнить данные', command=data_clicked)
-    send_btn.grid(row=8, column=1)
-
-
-
-def reg():
-    # главное окно приложения
-    window_reg = Tk()
-    # заголовок окна
-    window_reg.title('Регистрация')
-    # размер окна
-    window_reg.geometry('450x230+400+150')
-    # менять размер
-    window_reg.resizable(False, False)
-
-    # кнопка Войти
-    def clicked():
+    def clicked(self):
         output=open('logins.txt','+r')
         # логин и пароль
-        username = username_entry.get()
-        password = password_entry.get()
+        username = self.username_entry.get()
+        password = self.password_entry.get()
         flag = 0
         while True:
             if (len(password)<3):
@@ -176,41 +147,27 @@ def reg():
                     if (username == username_in_file):
                         flag = -1
                         messagebox.showerror('Ошибка','Такой логин уже занят')
-                        window_reg.destroy()
-                        reg() 
+                        self.root.destroy()
+                        self.run() 
             if (flag == 0):     
                 s = (username+' '+password)
                 output.write(s)
                 output.close()
-                window_reg.destroy()
+                self.root.destroy()
                 break
-        data()
+        data = Data()
+        data.run()
 
-    # настройка
-    main_label = Label(window_reg, text='Регистрация', font=font_header, justify=CENTER, **header_padding)
-    main_label.pack()
-
-    # метка для логина
-    username_label = Label(window_reg, text='Имя пользователя', font=label_font , **base_padding)
-    username_label.pack()
-
-    # логин
-    username_entry = Entry(window_reg, bg='#fff', fg='#444', font=font_entry)
-    username_entry.pack()
-
-    # метка пароля
-    password_label = Label(window_reg, text='Пароль', font=label_font , **base_padding)
-    password_label.pack()
-
-    # пароль
-    password_entry = Entry(window_reg, bg='#fff', fg='#444', font=font_entry, show='*')
-    password_entry.pack()
-
-    # кнопка Войти
-    send_btn = Button(window_reg, text='Зарегистрироваться', command=clicked)
-    send_btn.pack(**base_padding)
-
-
-    # главный цикл
-    window_reg.mainloop()
-    ent()
+    def draw_widjets(self):
+        self.main_label.pack()
+        self.username_label.pack()
+        self.username_entry.pack()
+        self.password_label.pack()
+        self.password_entry.pack()
+        self.send_btn.pack(**base_padding)
+    
+    def run(self):
+        self.draw_widjets()
+        self.root.mainloop()
+        enter = Enter()
+        enter.run()

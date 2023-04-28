@@ -3,30 +3,34 @@ from tkinter import *
 from tkinter import messagebox
 import re
 import tkinter as tk
-from main import main
+from main import Main
 
-def ent():
-    # главное окно приложения
-    window_ent = Tk()
-    # заголовок окна
-    window_ent.title('Авторизация')
-    # размер окна
-    window_ent.geometry('450x230+400+150')
-    # менять размер
-    window_ent.resizable(False, False)
+# шрифты и отступы
+font_header = ('Arial', 15)
+font_entry = ('Arial', 12)
+label_font = ('Arial', 11)
+base_padding = {'padx': 10, 'pady': 8}
+header_padding = {'padx': 10, 'pady': 12}
 
-    # шрифты и отступы
-    font_header = ('Arial', 15)
-    font_entry = ('Arial', 12)
-    label_font = ('Arial', 11)
-    base_padding = {'padx': 10, 'pady': 8}
-    header_padding = {'padx': 10, 'pady': 12}
+class Enter:
+    def __init__(self):
+        self.root = Tk()
+        self.root.title('Авторизация')
+        self.root.geometry('450x230+400+150')
+        self.root.resizable=(False, False)
 
-    def clicked():
+        self.main_label = Label(self.root, text='Вход', font=font_header, justify=CENTER, **header_padding)
+        self.username_label = Label(self.root, text='Имя пользователя', font=label_font , **base_padding)
+        self.username_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry)
+        self.password_label = Label(self.root, text='Пароль', font=label_font , **base_padding)
+        self.password_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry, show='*')
+        self.send_btn = Button(self.root, text='Войти', command=self.clicked)
+
+    def clicked(self):
         output = open('logins.txt','+r')
         myusername = open('myusername.txt', '+r')
-        username = username_entry.get()
-        password = password_entry.get()
+        username = self.username_entry.get()
+        password = self.password_entry.get()
         s1 = 0
         s2 = 0
         while True:
@@ -35,9 +39,10 @@ def ent():
                 break
             username_in_file, password_in_file, name, age, driving_experience, criminal, phone, email, card  = line.split() 
             if (username == username_in_file and password == password_in_file):
-                window_ent.destroy()
+                self.root.destroy()
                 s1 = 1
-                main()
+                main = Main()
+                main.run()
                 myusername.write(username + ' ' + password + ' ' + name + ' ' +  age + ' ' + driving_experience + ' ' + criminal + ' ' + phone + ' ' + email + ' ' + card + ' ')
             else:
                 s2 = 0
@@ -45,32 +50,15 @@ def ent():
             messagebox.showerror('Ошибка','Неправильный логин или пароль')
         output.close()
         myusername.close()
-        
-    # настройка
-    main_label = Label(window_ent, text='Вход', font=font_header, justify=CENTER, **header_padding)
-    main_label.pack()
 
-    # метка для логина
-    username_label = Label(window_ent, text='Имя пользователя', font=label_font , **base_padding)
-    username_label.pack()
+    def draw_widjets(self):
+        self.main_label.pack()
+        self.username_label.pack()
+        self.username_entry.pack()
+        self.password_label.pack()
+        self.password_entry.pack()
+        self.send_btn.pack(**base_padding)
 
-    # логин
-    username_entry = Entry(window_ent, bg='#fff', fg='#444', font=font_entry)
-    username_entry.pack()
-
-    # метка пароля
-    password_label = Label(window_ent, text='Пароль', font=label_font , **base_padding)
-    password_label.pack()
-
-    # пароль
-    password_entry = Entry(window_ent, bg='#fff', fg='#444', font=font_entry, show='*')
-    password_entry.pack()
-
-    # кнопка Войти
-    send_btn = Button(window_ent, text='Войти', command=clicked)
-    send_btn.pack(**base_padding)
-
-
-    # главный цикл
-    window_ent.mainloop()
-   
+    def run(self):
+        self.draw_widjets()
+        self.root.mainloop()

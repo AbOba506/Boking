@@ -3,17 +3,8 @@ from tkinter import *
 from tkinter import messagebox
 import re
 import tkinter as tk
-from registration import reg
-from enter import ent
-
-# главное окно приложения
-window_auth = Tk()
-# заголовок окна
-window_auth.title('Авторизация')
-# размер окна
-window_auth.geometry('450x230+400+150')
-# менять размер
-window_auth.resizable(False, False)
+from registration import Registration
+from enter import Enter
 
 # шрифты и отступы
 font_header = ('Arial', 15)
@@ -22,26 +13,37 @@ label_font = ('Arial', 11)
 base_padding = {'padx': 10, 'pady': 8}
 header_padding = {'padx': 10, 'pady': 12}
 
-def clicked_enter():
-    window_auth.destroy()
-    ent()
+class Window:
+    def __init__(self):
+        self.root = Tk()
+        self.root.title('Авторизация')
+        self.root.geometry('450x230+400+150')
+        self.root.resizable=(False, False)
 
-def clicked_reg():
-    window_auth.destroy()
-    reg()
+        self.main_label = Label(self.root, text='Авторизация', font=font_header, justify=CENTER, **header_padding)
+        self.send_btn = Button(self.root, text='Вход', command=self.clicked_enter, borderwidth=5, width=15)
+        self.send_btv = Button(self.root, text='Регистрация', command=self.clicked_reg, borderwidth=5, width=15)
+
+    def clicked_enter(self):
+        self.root.destroy()
+        enter = Enter()
+        enter.run()
+
+    def clicked_reg(self):
+        self.root.destroy()
+        reg = Registration()
+        reg.run()
+
+    def draw_widjets(self):
+        self.main_label.pack()
+        self.send_btn.pack(**base_padding)
+        self.send_btv.pack(**base_padding)
 
 
-# настройка
-main_label = Label(window_auth, text='Авторизация', font=font_header, justify=CENTER, **header_padding)
-main_label.pack()
+    def run(self):
+        self.root.mainloop()
 
-# кнопка Войти
-send_btn = Button(window_auth, text='Вход', command=clicked_enter, borderwidth=5, width=15)
-send_btn.pack(**base_padding)
 
-# кнопка Войти
-send_btv = Button(window_auth, text='Регистрация', command=clicked_reg, borderwidth=5, width=15)
-send_btv.pack(**base_padding)
-
-# главный цикл
-window_auth.mainloop()
+window = Window()
+window.draw_widjets()
+window.run()
