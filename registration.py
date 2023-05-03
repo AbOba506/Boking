@@ -72,6 +72,8 @@ class Data:
         rez.write(s)
         rez.close()
         self.root.destroy()
+        enter = Enter()
+        enter.run()
 
 class Registration:
     def __init__(self):
@@ -154,9 +156,10 @@ class Registration:
                 output.write(s)
                 output.close()
                 self.root.destroy()
+                data = Data()
+                data.run()
                 break
-        data = Data()
-        data.run()
+        
 
     def draw_widjets(self):
         self.main_label.pack()
@@ -169,5 +172,4 @@ class Registration:
     def run(self):
         self.draw_widjets()
         self.root.mainloop()
-        enter = Enter()
-        enter.run()
+        
