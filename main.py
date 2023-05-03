@@ -5,6 +5,9 @@ import re
 import tkinter as tk
 from PIL import Image, ImageTk
 
+color0 = "#ffffff"
+color1 = "#4456F0"
+
 # шрифты и отступы
 font_header = ('Arial', 15)
 font_text = ('Arial', 10)
@@ -277,6 +280,814 @@ class Main:
             window_assortiment.destroy()
             main = Main()
             main.run()
+        def search():
+            search_name = search_entry.get()
+            # Honda
+            if search_name == "civic":
+                civic_search()
+            elif search_name == "nsx":
+                nsx_search()
+            elif search_name == "s2000":
+                s2000()
+            elif search_name == "prelude":
+                prelude()
+            # Nisssan
+            elif search_name == "stagea":
+                stagea_search()
+            elif search_name == "skyline":
+                skyline_search()
+            elif search_name == "silvia":
+                silvia_search()
+            elif search_name == "GTR":
+                GTR_search()
+            # Porsche
+            elif search_name == "p911":
+                p911_search()
+            elif search_name == "cayenne":
+                cayenne_search()
+            elif search_name == "panamera":
+                panamera_search()
+            elif search_name == "taycan":
+                taycan_search()
+            # Toyota
+            elif search_name == "trueno":
+                trueno_search()
+            elif search_name == "supra":
+                supra_search()
+            elif search_name == "mark II" or search_name == "mark 2":
+                mark_II_search()
+            elif search_name == "crown":
+                crown_search()
+            # Mazda
+            elif search_name == "rx 7":
+                rx_7_search()
+            elif search_name == "miata":
+                miata_search()
+            elif search_name == "roadster":
+                roadster_search()
+            elif search_name == "rx 8":
+                rx_8_search()
+
+        def rx_8_search():
+            window_assortiment.destroy()
+            def exit_rx_8():
+                window_rx_8.destroy()
+                main = Main()
+                main.run()
+            window_rx_8 = Tk()
+            window_rx_8.title('Mazda RX-8')
+            window_rx_8.geometry('900x650+300+20')
+            window_rx_8.resizable(False, False)
+            # настройка
+            rx_8_label = Label(window_rx_8, text='Mazda RX-8', font=('Arial',20), justify=CENTER, **header_padding)
+            rx_8_label.place(x = 390, y = 10)
+            exit_rx_8 = Button(window_rx_8, text='Выйти', command=exit_rx_8, borderwidth=5,font=('Arial',16), width=10)
+            exit_rx_8.place(x = 750, y = 20)
+            rx_8_photo = Image.open("data\\rx8.png")
+            rx_8_photo = rx_8_photo.resize((440, 350), Image.ANTIALIAS)
+            rx_8_photo = ImageTk.PhotoImage(rx_8_photo)
+            rx_8_label = Label(image = rx_8_photo, borderwidth=0)
+            rx_8_label.image = rx_8_photo
+            rx_8_label.place(x = 240, y = 70)
+            rx_8_label = Label(window_rx_8, text='Производитель: Mazda', font=font_header, justify=CENTER)
+            rx_8_label.place(x = 240, y = 420)
+            rx_8_label = Label(window_rx_8, text='Модель: RX-8', font=font_header, justify=CENTER)
+            rx_8_label.place(x = 240, y = 450)
+            rx_8_label = Label(window_rx_8, text='Тип кузова: 3-х дверная', font=font_header, justify=CENTER)
+            rx_8_label.place(x = 240, y = 480)
+            rx_8_label = Label(window_rx_8, text='Компоновка: заднеприводный', font=font_header, justify=CENTER)
+            rx_8_label.place(x = 240, y = 510)
+            rx_8_label = Label(window_rx_8, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
+            rx_8_label.place(x = 240, y = 540)
+            def book_rx_8():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Mazda RX-8')
+            book_rx_8 = Button(window_rx_8, text='Забронировать', command=book_rx_8, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_rx_8.place(x = 350, y = 570)
+            # главный цикл
+            window_rx_8.mainloop()
+
+        def roadster_search():
+            window_assortiment.destroy()
+            def exit_roadster():
+                window_roadster.destroy()
+                main = Main()
+                main.run()
+            window_roadster = Tk()
+            window_roadster.title('Mazda Roadster')
+            window_roadster.geometry('900x650+300+20')
+            window_roadster.resizable(False, False)
+            # настройка
+            roadster_label = Label(window_roadster, text='Mazda Roadster', font=('Arial',20), justify=CENTER, **header_padding)
+            roadster_label.place(x = 390, y = 10)
+            exit_roadster = Button(window_roadster, text='Выйти', command=exit_roadster, borderwidth=5,font=('Arial',16), width=10)
+            exit_roadster.place(x = 750, y = 20)
+            roadster_photo = Image.open("data\\roadster.png")
+            roadster_photo = roadster_photo.resize((440, 350), Image.ANTIALIAS)
+            roadster_photo = ImageTk.PhotoImage(roadster_photo)
+            roadster_label = Label(image = roadster_photo, borderwidth=0)
+            roadster_label.image = roadster_photo
+            roadster_label.place(x = 240, y = 70)
+            roadster_label = Label(window_roadster, text='Производитель: Mazda', font=font_header, justify=CENTER)
+            roadster_label.place(x = 240, y = 420)
+            roadster_label = Label(window_roadster, text='Модель: Roadster', font=font_header, justify=CENTER)
+            roadster_label.place(x = 240, y = 450)
+            roadster_label = Label(window_roadster, text='Тип кузова: 2-х дверная', font=font_header, justify=CENTER)
+            roadster_label.place(x = 240, y = 480)
+            roadster_label = Label(window_roadster, text='Компоновка: заднеприводный', font=font_header, justify=CENTER)
+            roadster_label.place(x = 240, y = 510)
+            roadster_label = Label(window_roadster, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
+            roadster_label.place(x = 240, y = 540)
+            def book_roadster():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Mazda Roadster')
+            book_roadster = Button(window_roadster, text='Забронировать', command=book_roadster, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_roadster.place(x = 350, y = 570)
+            # главный цикл
+            window_roadster.mainloop()
+
+        def miata_search():
+            window_assortiment.destroy()
+            def exit_miata():
+                window_miata.destroy()
+                main = Main()
+                main.run()
+            window_miata = Tk()
+            window_miata.title('Mazda Miata')
+            window_miata.geometry('900x650+300+20')
+            window_miata.resizable(False, False)
+            # настройка
+            miata_label = Label(window_miata, text='Mazda Miata', font=('Arial',20), justify=CENTER, **header_padding)
+            miata_label.place(x = 390, y = 10)
+            exit_miata = Button(window_miata, text='Выйти', command=exit_miata, borderwidth=5,font=('Arial',16), width=10)
+            exit_miata.place(x = 750, y = 20)
+            miata_photo = Image.open("data\\miata.png")
+            miata_photo = miata_photo.resize((440, 350), Image.ANTIALIAS)
+            miata_photo = ImageTk.PhotoImage(miata_photo)
+            miata_label = Label(image = miata_photo, borderwidth=0)
+            miata_label.image = miata_photo
+            miata_label.place(x = 240, y = 70)
+            miata_label = Label(window_miata, text='Производитель: Mazda', font=font_header, justify=CENTER)
+            miata_label.place(x = 240, y = 420)
+            miata_label = Label(window_miata, text='Модель: Miata', font=font_header, justify=CENTER)
+            miata_label.place(x = 240, y = 450)
+            miata_label = Label(window_miata, text='Тип кузова: 2-х дверная', font=font_header, justify=CENTER)
+            miata_label.place(x = 240, y = 480)
+            miata_label = Label(window_miata, text='Компоновка: заднеприводный', font=font_header, justify=CENTER)
+            miata_label.place(x = 240, y = 510)
+            miata_label = Label(window_miata, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
+            miata_label.place(x = 240, y = 540)
+            def book_miata():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Mazda Miata')
+            book_miata = Button(window_miata, text='Забронировать', command=book_miata, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_miata.place(x = 350, y = 570)
+            # главный цикл
+            window_miata.mainloop()
+
+        def rx_7_search():
+            window_assortiment.destroy()
+            def exit_rx_7():
+                window_rx_7.destroy()
+                main = Main()
+                main.run()
+            window_rx_7 = Tk()
+            window_rx_7.title('Mazda RX-7')
+            window_rx_7.geometry('900x650+300+20')
+            window_rx_7.resizable(False, False)
+            # настройка
+            rx_7_label = Label(window_rx_7, text='Mazda RX-7', font=('Arial',20), justify=CENTER, **header_padding)
+            rx_7_label.place(x = 390, y = 10)
+            exit_rx_7 = Button(window_rx_7, text='Выйти', command=exit_rx_7, borderwidth=5,font=('Arial',16), width=10)
+            exit_rx_7.place(x = 750, y = 20)
+            rx_7_photo = Image.open("data\\rx7.png")
+            rx_7_photo = rx_7_photo.resize((440, 350), Image.ANTIALIAS)
+            rx_7_photo = ImageTk.PhotoImage(rx_7_photo)
+            rx_7_label = Label(image = rx_7_photo, borderwidth=0)
+            rx_7_label.image = rx_7_photo
+            rx_7_label.place(x = 240, y = 70)
+            rx_7_label = Label(window_rx_7, text='Производитель: Mazda', font=font_header, justify=CENTER)
+            rx_7_label.place(x = 240, y = 420)
+            rx_7_label = Label(window_rx_7, text='Модель: RX-7', font=font_header, justify=CENTER)
+            rx_7_label.place(x = 240, y = 450)
+            rx_7_label = Label(window_rx_7, text='Тип кузова: 2-х дверная', font=font_header, justify=CENTER)
+            rx_7_label.place(x = 240, y = 480)
+            rx_7_label = Label(window_rx_7, text='Компоновка: заднеприводный', font=font_header, justify=CENTER)
+            rx_7_label.place(x = 240, y = 510)
+            rx_7_label = Label(window_rx_7, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
+            rx_7_label.place(x = 240, y = 540)
+            def book_rx_7():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Mazda RX-7')
+            book_rx_7 = Button(window_rx_7, text='Забронировать', command=book_rx_7, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_rx_7.place(x = 350, y = 570)
+            # главный цикл
+            window_rx_7.mainloop()
+
+        def crown_search():
+            window_assortiment.destroy()
+            def exit_crown():
+                window_crown.destroy()
+                main = Main()
+                main.run()
+            window_crown = Tk()
+            window_crown.title('Toyota Crown')
+            window_crown.geometry('900x650+300+20')
+            window_crown.resizable(False, False)
+            # настройка
+            crown_label = Label(window_crown, text='Toyota Crown', font=('Arial',20), justify=CENTER, **header_padding)
+            crown_label.place(x = 390, y = 10)
+            exit_crown = Button(window_crown, text='Выйти', command=exit_crown, borderwidth=5,font=('Arial',16), width=10)
+            exit_crown.place(x = 750, y = 20)
+            crown_photo = Image.open("data\\crown.png")
+            crown_photo = crown_photo.resize((440, 350), Image.ANTIALIAS)
+            crown_photo = ImageTk.PhotoImage(crown_photo)
+            crown_label = Label(image = crown_photo, borderwidth=0)
+            crown_label.image = crown_photo
+            crown_label.place(x = 240, y = 70)
+            crown_label = Label(window_crown, text='Производитель: Toyota', font=font_header, justify=CENTER)
+            crown_label.place(x = 240, y = 420)
+            crown_label = Label(window_crown, text='Модель: Crown', font=font_header, justify=CENTER)
+            crown_label.place(x = 240, y = 450)
+            crown_label = Label(window_crown, text='Тип кузова: 4-х дверная', font=font_header, justify=CENTER)
+            crown_label.place(x = 240, y = 480)
+            crown_label = Label(window_crown, text='Компоновка: полноприводный', font=font_header, justify=CENTER)
+            crown_label.place(x = 240, y = 510)
+            crown_label = Label(window_crown, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
+            crown_label.place(x = 240, y = 540)
+            def book_crown():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Toyota Crown')
+            book_crown = Button(window_crown, text='Забронировать', command=book_crown, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_crown.place(x = 350, y = 570)
+            # главный цикл
+            window_crown.mainloop()
+
+        def mark_II_search():
+            window_assortiment.destroy()
+            def exit_mark_II():
+                window_mark_II.destroy()
+                main = Main()
+                main.run()
+            window_mark_II = Tk()
+            window_mark_II.title('Toyota Mark II')
+            window_mark_II.geometry('900x650+300+20')
+            window_mark_II.resizable(False, False)
+            # настройка
+            mark_II_label = Label(window_mark_II, text='Toyota Mark II', font=('Arial',20), justify=CENTER, **header_padding)
+            mark_II_label.place(x = 390, y = 10)
+            exit_mark_II = Button(window_mark_II, text='Выйти', command=exit_mark_II, borderwidth=5,font=('Arial',16), width=10)
+            exit_mark_II.place(x = 750, y = 20)
+            mark_II_photo = Image.open("data\\mark2.png")
+            mark_II_photo = mark_II_photo.resize((440, 350), Image.ANTIALIAS)
+            mark_II_photo = ImageTk.PhotoImage(mark_II_photo)
+            mark_II_label = Label(image = mark_II_photo, borderwidth=0)
+            mark_II_label.image = mark_II_photo
+            mark_II_label.place(x = 240, y = 70)
+            mark_II_label = Label(window_mark_II, text='Производитель: Toyota', font=font_header, justify=CENTER)
+            mark_II_label.place(x = 240, y = 420)
+            mark_II_label = Label(window_mark_II, text='Модель: Mark II', font=font_header, justify=CENTER)
+            mark_II_label.place(x = 240, y = 450)
+            mark_II_label = Label(window_mark_II, text='Тип кузова: 4-х дверная', font=font_header, justify=CENTER)
+            mark_II_label.place(x = 240, y = 480)
+            mark_II_label = Label(window_mark_II, text='Компоновка: полноприводный', font=font_header, justify=CENTER)
+            mark_II_label.place(x = 240, y = 510)
+            mark_II_label = Label(window_mark_II, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
+            mark_II_label.place(x = 240, y = 540)
+            def book_mark_II():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Toyota Mark II')
+            book_mark_II = Button(window_mark_II, text='Забронировать', command=book_mark_II, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_mark_II.place(x = 350, y = 570)
+            # главный цикл
+            window_mark_II.mainloop()
+
+        def supra_search():
+            window_assortiment.destroy()
+            def exit_supra():
+                window_supra.destroy()
+                main = Main()
+                main.run()
+            window_supra = Tk()
+            window_supra.title('Toyota Supra')
+            window_supra.geometry('900x650+300+20')
+            window_supra.resizable(False, False)
+            # настройка
+            supra_label = Label(window_supra, text='Toyota Supra', font=('Arial',20), justify=CENTER, **header_padding)
+            supra_label.place(x = 390, y = 10)
+            exit_supra = Button(window_supra, text='Выйти', command=exit_supra, borderwidth=5,font=('Arial',16), width=10)
+            exit_supra.place(x = 750, y = 20)
+            supra_photo = Image.open("data\\supra.png")
+            supra_photo = supra_photo.resize((440, 350), Image.ANTIALIAS)
+            supra_photo = ImageTk.PhotoImage(supra_photo)
+            supra_label = Label(image = supra_photo, borderwidth=0)
+            supra_label.image = supra_photo
+            supra_label.place(x = 240, y = 70)
+            supra_label = Label(window_supra, text='Производитель: Toyota', font=font_header, justify=CENTER)
+            supra_label.place(x = 240, y = 420)
+            supra_label = Label(window_supra, text='Модель: Supra A80', font=font_header, justify=CENTER)
+            supra_label.place(x = 240, y = 450)
+            supra_label = Label(window_supra, text='Тип кузова: 2-x дверная', font=font_header, justify=CENTER)
+            supra_label.place(x = 240, y = 480)
+            supra_label = Label(window_supra, text='Компоновка: заднеприводная', font=font_header, justify=CENTER)
+            supra_label.place(x = 240, y = 510)
+            supra_label = Label(window_supra, text='Стоимость за час: 4000 рублей', font=font_header, justify=CENTER)
+            supra_label.place(x = 240, y = 540)
+            def book_supra():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Toyota Supra')
+            book_supra = Button(window_supra, text='Забронировать', command=book_supra, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_supra.place(x = 350, y = 570)
+            # главный цикл
+            window_supra.mainloop()
+
+        def trueno_search():
+            window_assortiment.destroy()
+            def exit_trueno():
+                window_trueno.destroy()
+                main = Main()
+                main.run()
+            window_trueno = Tk()
+            window_trueno.title('Toyota Trueno')
+            window_trueno.geometry('900x650+300+20')
+            window_trueno.resizable(False, False)
+            # настройка
+            trueno_label = Label(window_trueno, text='Toyota Trueno', font=('Arial',20), justify=CENTER, **header_padding)
+            trueno_label.place(x = 390, y = 10)
+            exit_trueno = Button(window_trueno, text='Выйти', command=exit_trueno, borderwidth=5,font=('Arial',16), width=10)
+            exit_trueno.place(x = 750, y = 20)
+            trueno_photo = Image.open("data\\trueno.png")
+            trueno_photo = trueno_photo.resize((440, 350), Image.ANTIALIAS)
+            trueno_photo = ImageTk.PhotoImage(trueno_photo)
+            trueno_label = Label(image = trueno_photo, borderwidth=0)
+            trueno_label.image = trueno_photo
+            trueno_label.place(x = 240, y = 70)
+            trueno_label = Label(window_trueno, text='Производитель: Toyota', font=font_header, justify=CENTER)
+            trueno_label.place(x = 240, y = 420)
+            trueno_label = Label(window_trueno, text='Модель: Trueno AE86', font=font_header, justify=CENTER)
+            trueno_label.place(x = 240, y = 450)
+            trueno_label = Label(window_trueno, text='Тип кузова: 3-x дверная', font=font_header, justify=CENTER)
+            trueno_label.place(x = 240, y = 480)
+            trueno_label = Label(window_trueno, text='Компоновка: заднеприводная', font=font_header, justify=CENTER)
+            trueno_label.place(x = 240, y = 510)
+            trueno_label = Label(window_trueno, text='Стоимость за час: 3000 рублей', font=font_header, justify=CENTER)
+            trueno_label.place(x = 240, y = 540)
+            def book_trueno():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Toyota Trueno')
+            book_trueno = Button(window_trueno, text='Забронировать', command=book_trueno, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_trueno.place(x = 350, y = 570)
+            # главный цикл
+            window_trueno.mainloop()
+
+        def taycan_search():
+            window_assortiment.destroy()
+            def exit_taycan():
+                window_taycan.destroy()
+                main = Main()
+                main.run()
+            window_taycan = Tk()
+            window_taycan.title('Porsche Taycan')
+            window_taycan.geometry('900x650+300+20')
+            window_taycan.resizable(False, False)
+            # настройка
+            taycan_label = Label(window_taycan, text='Porsche Taycan', font=('Arial',20), justify=CENTER, **header_padding)
+            taycan_label.place(x = 390, y = 10)
+            exit_taycan = Button(window_taycan, text='Выйти', command=exit_taycan, borderwidth=5,font=('Arial',16), width=10)
+            exit_taycan.place(x = 750, y = 20)
+            taycan_photo = Image.open("data\\taycan.png")
+            taycan_photo = taycan_photo.resize((440, 350), Image.ANTIALIAS)
+            taycan_photo = ImageTk.PhotoImage(taycan_photo)
+            taycan_label = Label(image = taycan_photo, borderwidth=0)
+            taycan_label.image = taycan_photo
+            taycan_label.place(x = 240, y = 70)
+            taycan_label = Label(window_taycan, text='Производитель: Porsche', font=font_header, justify=CENTER)
+            taycan_label.place(x = 240, y = 420)
+            taycan_label = Label(window_taycan, text='Модель: Taycan', font=font_header, justify=CENTER)
+            taycan_label.place(x = 240, y = 450)
+            taycan_label = Label(window_taycan, text='Тип кузова: 4-х дверная', font=font_header, justify=CENTER)
+            taycan_label.place(x = 240, y = 480)
+            taycan_label = Label(window_taycan, text='Компоновка: полноприводный', font=font_header, justify=CENTER)
+            taycan_label.place(x = 240, y = 510)
+            taycan_label = Label(window_taycan, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
+            taycan_label.place(x = 240, y = 540)
+            def book_taycan():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Porsche Taycan')
+            book_taycan = Button(window_taycan, text='Забронировать', command=book_taycan, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_taycan.place(x = 350, y = 570)
+            # главный цикл
+            window_taycan.mainloop()
+
+        def panamera_search():
+            window_assortiment.destroy()
+            def exit_panamera():
+                window_panamera.destroy()
+                main = Main()
+                main.run()
+            window_panamera = Tk()
+            window_panamera.title('Porsche panamera')
+            window_panamera.geometry('900x650+300+20')
+            window_panamera.resizable(False, False)
+            # настройка
+            panamera_label = Label(window_panamera, text='Porsche Panamera', font=('Arial',20), justify=CENTER, **header_padding)
+            panamera_label.place(x = 390, y = 10)
+            exit_panamera = Button(window_panamera, text='Выйти', command=exit_panamera, borderwidth=5,font=('Arial',16), width=10)
+            exit_panamera.place(x = 750, y = 20)
+            panamera_photo = Image.open("data\\panamera.png")
+            panamera_photo = panamera_photo.resize((440, 350), Image.ANTIALIAS)
+            panamera_photo = ImageTk.PhotoImage(panamera_photo)
+            panamera_label = Label(image = panamera_photo, borderwidth=0)
+            panamera_label.image = panamera_photo
+            panamera_label.place(x = 240, y = 70)
+            panamera_label = Label(window_panamera, text='Производитель: Porsche', font=font_header, justify=CENTER)
+            panamera_label.place(x = 240, y = 420)
+            panamera_label = Label(window_panamera, text='Модель: Panamera', font=font_header, justify=CENTER)
+            panamera_label.place(x = 240, y = 450)
+            panamera_label = Label(window_panamera, text='Тип кузова: 5-ти дверная', font=font_header, justify=CENTER)
+            panamera_label.place(x = 240, y = 480)
+            panamera_label = Label(window_panamera, text='Компоновка: полноприводный', font=font_header, justify=CENTER)
+            panamera_label.place(x = 240, y = 510)
+            panamera_label = Label(window_panamera, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
+            panamera_label.place(x = 240, y = 540)
+            def book_panamera():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Porsche Panamera')
+            book_panamera = Button(window_panamera, text='Забронировать', command=book_panamera, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_panamera.place(x = 350, y = 570)
+            # главный цикл
+            window_panamera.mainloop()
+
+        def cayenne_search():
+            window_assortiment.destroy()
+            def exit_cayenne():
+                window_cayenne.destroy()
+                main = Main()
+                main.run()
+            window_cayenne = Tk()
+            window_cayenne.title('Porsche Cayenne')
+            window_cayenne.geometry('900x650+300+20')
+            window_cayenne.resizable(False, False)
+            # настройка
+            cayenne_label = Label(window_cayenne, text='Porsche Cayenne', font=('Arial',20), justify=CENTER, **header_padding)
+            cayenne_label.place(x = 390, y = 10)
+            exit_cayenne = Button(window_cayenne, text='Выйти', command=exit_cayenne, borderwidth=5,font=('Arial',16), width=10)
+            exit_cayenne.place(x = 750, y = 20)
+            cayenne_photo = Image.open("data\\cayenne.png")
+            cayenne_photo = cayenne_photo.resize((440, 350), Image.ANTIALIAS)
+            cayenne_photo = ImageTk.PhotoImage(cayenne_photo)
+            cayenne_label = Label(image = cayenne_photo, borderwidth=0)
+            cayenne_label.image = cayenne_photo
+            cayenne_label.place(x = 240, y = 70)
+            cayenne_label = Label(window_cayenne, text='Производитель: Porsche', font=font_header, justify=CENTER)
+            cayenne_label.place(x = 240, y = 420)
+            cayenne_label = Label(window_cayenne, text='Модель: Cayenne', font=font_header, justify=CENTER)
+            cayenne_label.place(x = 240, y = 450)
+            cayenne_label = Label(window_cayenne, text='Тип кузова: 5-ти дверная', font=font_header, justify=CENTER)
+            cayenne_label.place(x = 240, y = 480)
+            cayenne_label = Label(window_cayenne, text='Компоновка: полноприводный', font=font_header, justify=CENTER)
+            cayenne_label.place(x = 240, y = 510)
+            cayenne_label = Label(window_cayenne, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
+            cayenne_label.place(x = 240, y = 540)
+            def book_cayenne():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Porsche Cayenne')
+            book_cayenne = Button(window_cayenne, text='Забронировать', command=book_cayenne, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_cayenne.place(x = 350, y = 570)
+            # главный цикл
+            window_cayenne.mainloop()
+
+        def p911_search():
+            window_assortiment.destroy()
+            def exit_p911():
+                window_p911.destroy()
+                main = Main()
+                main.run()
+            window_p911 = Tk()
+            window_p911.title('Porsche 911')
+            window_p911.geometry('900x650+300+20')
+            window_p911.resizable(False, False)
+            # настройка
+            p911_label = Label(window_p911, text='Porsche 911', font=('Arial',20), justify=CENTER, **header_padding)
+            p911_label.place(x = 390, y = 10)
+            exit_p911 = Button(window_p911, text='Выйти', command=exit_p911, borderwidth=5,font=('Arial',16), width=10)
+            exit_p911.place(x = 750, y = 20)
+            p911_photo = Image.open("data\\911.png")
+            p911_photo = p911_photo.resize((440, 350), Image.ANTIALIAS)
+            p911_photo = ImageTk.PhotoImage(p911_photo)
+            p911_label = Label(image = p911_photo, borderwidth=0)
+            p911_label.image = p911_photo
+            p911_label.place(x = 240, y = 70)
+            p911_label = Label(window_p911, text='Производитель: Porsche', font=font_header, justify=CENTER)
+            p911_label.place(x = 240, y = 420)
+            p911_label = Label(window_p911, text='Модель: 911', font=font_header, justify=CENTER)
+            p911_label.place(x = 240, y = 450)
+            p911_label = Label(window_p911, text='Тип кузова: 2-x дверная', font=font_header, justify=CENTER)
+            p911_label.place(x = 240, y = 480)
+            p911_label = Label(window_p911, text='Компоновка: заднеприводная', font=font_header, justify=CENTER)
+            p911_label.place(x = 240, y = 510)
+            p911_label = Label(window_p911, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
+            p911_label.place(x = 240, y = 540)
+            def book_p911():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Porsche 911')
+            book_p911 = Button(window_p911, text='Забронировать', command=book_p911, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_p911.place(x = 350, y = 570)
+            # главный цикл
+            window_p911.mainloop()
+
+        def civic_search():
+            window_assortiment.destroy()
+            def exit_civic():
+                window_civic.destroy()
+                main = Main()
+                main.run()
+            window_civic = Tk()
+            window_civic.title('Honda Civic')
+            window_civic.geometry('900x650+300+20')
+            window_civic.resizable(False, False)
+            # настройка
+            honda_civic_label = Label(window_civic, text='Honda Civic', font=('Arial',20), justify=CENTER, **header_padding)
+            honda_civic_label.place(x = 390, y = 10)
+            exit_honda_civic = Button(window_civic, text='Выйти', command=exit_civic, borderwidth=5,font=('Arial',16), width=10)
+            exit_honda_civic.place(x = 750, y = 20)
+            civic_photo = Image.open("data\\civic.png")
+            civic_photo = civic_photo.resize((440, 350), Image.ANTIALIAS)
+            civic_photo = ImageTk.PhotoImage(civic_photo)
+            civic_label = Label(image = civic_photo, borderwidth=0)
+            civic_label.image = civic_photo
+            civic_label.place(x = 240, y = 70)
+            honda_civic_label = Label(window_civic, text='Производитель: Honda', font=font_header, justify=CENTER)
+            honda_civic_label.place(x = 240, y = 420)
+            honda_civic_label = Label(window_civic, text='Модель: Civic type R', font=font_header, justify=CENTER)
+            honda_civic_label.place(x = 240, y = 450)
+            honda_civic_label = Label(window_civic, text='Тип кузова: 5-и дверная', font=font_header, justify=CENTER)
+            honda_civic_label.place(x = 240, y = 480)
+            honda_civic_label = Label(window_civic, text='Компоновка: переднеприводная', font=font_header, justify=CENTER)
+            honda_civic_label.place(x = 240, y = 510)
+            honda_civic_label = Label(window_civic, text='Стоимость за час: 3500 рублей', font=font_header, justify=CENTER)
+            honda_civic_label.place(x = 240, y = 540)
+            def book_civic():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Honda Civic')
+            book_honda_civic = Button(window_civic, text='Забронировать', command=book_civic, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_honda_civic.place(x = 350, y = 570)
+            # главный цикл
+            window_civic.mainloop()
+
+        def nsx_search():
+            window_assortiment.destroy()
+            def exit_nsx():
+                window_nsx.destroy()
+                main = Main()
+                main.run()
+            window_nsx = Tk()
+            window_nsx.title('Honda NSX')
+            window_nsx.geometry('900x650+300+20')
+            window_nsx.resizable(False, False)
+            # настройка
+            honda_nsx_label = Label(window_nsx, text='Honda NSX', font=('Arial',20), justify=CENTER, **header_padding)
+            honda_nsx_label.place(x = 390, y = 10)
+            exit_honda_nsx = Button(window_nsx, text='Выйти', command=exit_nsx, borderwidth=5,font=('Arial',16), width=10)
+            exit_honda_nsx.place(x = 750, y = 20)
+            nsx_photo = Image.open("data\\nsx.png")
+            nsx_photo = nsx_photo.resize((440, 350), Image.ANTIALIAS)
+            nsx_photo = ImageTk.PhotoImage(nsx_photo)
+            nsx_label = Label(image = nsx_photo, borderwidth=0)
+            nsx_label.image = nsx_photo
+            nsx_label.place(x = 240, y = 70)
+            honda_nsx_label = Label(window_nsx, text='Производитель: Honda', font=font_header, justify=CENTER)
+            honda_nsx_label.place(x = 240, y = 420)
+            honda_nsx_label = Label(window_nsx, text='Модель: NSX', font=font_header, justify=CENTER)
+            honda_nsx_label.place(x = 240, y = 450)
+            honda_nsx_label = Label(window_nsx, text='Тип кузова: 2-х дверная', font=font_header, justify=CENTER)
+            honda_nsx_label.place(x = 240, y = 480)
+            honda_nsx_label = Label(window_nsx, text='Компоновка: полноприводная', font=font_header, justify=CENTER)
+            honda_nsx_label.place(x = 240, y = 510)
+            honda_nsx_label = Label(window_nsx, text='Стоимость за час: 7000 рублей', font=font_header, justify=CENTER)
+            honda_nsx_label.place(x = 240, y = 540)
+            def book_nsx():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Honda NSX')
+            book_honda_nsx = Button(window_nsx, text='Забронировать', command=book_nsx, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_honda_nsx.place(x = 350, y = 570)
+            # главный цикл
+            window_nsx.mainloop()
+
+        def s2000():
+            window_assortiment.destroy()
+            def exit_s2000():
+                window_s2000.destroy()
+                main = Main()
+                main.run()
+            window_s2000 = Tk()
+            window_s2000.title('Honda S2000')
+            window_s2000.geometry('900x650+300+20')
+            window_s2000.resizable(False, False)
+            # настройка
+            honda_s2000_label = Label(window_s2000, text='Honda S2000', font=('Arial',20), justify=CENTER, **header_padding)
+            honda_s2000_label.place(x = 390, y = 10)
+            exit_honda_s2000 = Button(window_s2000, text='Выйти', command=exit_s2000, borderwidth=5,font=('Arial',16), width=10)
+            exit_honda_s2000.place(x = 750, y = 20)
+            s2000_photo = Image.open("data\\s2000.png")
+            s2000_photo = s2000_photo.resize((440, 350), Image.ANTIALIAS)
+            s2000_photo = ImageTk.PhotoImage(s2000_photo)
+            s2000_label = Label(image = s2000_photo, borderwidth=0)
+            s2000_label.image = s2000_photo
+            s2000_label.place(x = 240, y = 70)
+            honda_s2000_label = Label(window_s2000, text='Производитель: Honda', font=font_header, justify=CENTER)
+            honda_s2000_label.place(x = 240, y = 420)
+            honda_s2000_label = Label(window_s2000, text='Модель: S2000', font=font_header, justify=CENTER)
+            honda_s2000_label.place(x = 240, y = 450)
+            honda_s2000_label = Label(window_s2000, text='Тип кузова: 2-х дверная', font=font_header, justify=CENTER)
+            honda_s2000_label.place(x = 240, y = 480)
+            honda_s2000_label = Label(window_s2000, text='Компоновка: заднеприводная', font=font_header, justify=CENTER)
+            honda_s2000_label.place(x = 240, y = 510)
+            honda_s2000_label = Label(window_s2000, text='Стоимость за час: 4000 рублей', font=font_header, justify=CENTER)
+            honda_s2000_label.place(x = 240, y = 540)
+            def book_s2000():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Honda S2000')
+            book_honda_s2000 = Button(window_s2000, text='Забронировать', command=book_s2000, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_honda_s2000.place(x = 350, y = 570)
+            # главный цикл
+            window_s2000.mainloop()
+        
+        def prelude():
+            window_assortiment.destroy()
+            def exit_prelude():
+                window_prelude.destroy()
+                main = Main()
+                main.run()
+            window_prelude = Tk()
+            window_prelude.title('Honda Prelude')
+            window_prelude.geometry('900x650+300+20')
+            window_prelude.resizable(False, False)
+            # настройка
+            honda_prelude_label = Label(window_prelude, text='Honda Prelude', font=('Arial',20), justify=CENTER, **header_padding)
+            honda_prelude_label.place(x = 390, y = 10)
+            exit_honda_prelude = Button(window_prelude, text='Выйти', command=exit_prelude, borderwidth=5,font=('Arial',16), width=10)
+            exit_honda_prelude.place(x = 750, y = 20)
+            prelude_photo = Image.open("data\\prelude.png")
+            prelude_photo = prelude_photo.resize((440, 350), Image.ANTIALIAS)
+            prelude_photo = ImageTk.PhotoImage(prelude_photo)
+            prelude_label = Label(image = prelude_photo, borderwidth=0)
+            prelude_label.image = prelude_photo
+            prelude_label.place(x = 240, y = 70)
+            honda_prelude_label = Label(window_prelude, text='Производитель: Honda', font=font_header, justify=CENTER)
+            honda_prelude_label.place(x = 240, y = 420)
+            honda_prelude_label = Label(window_prelude, text='Модель: Prelude', font=font_header, justify=CENTER)
+            honda_prelude_label.place(x = 240, y = 450)
+            honda_prelude_label = Label(window_prelude, text='Тип кузова: 2-х дверная', font=font_header, justify=CENTER)
+            honda_prelude_label.place(x = 240, y = 480)
+            honda_prelude_label = Label(window_prelude, text='Компоновка: заднеприводная', font=font_header, justify=CENTER)
+            honda_prelude_label.place(x = 240, y = 510)
+            honda_prelude_label = Label(window_prelude, text='Стоимость за час: 2500 рублей', font=font_header, justify=CENTER)
+            honda_prelude_label.place(x = 240, y = 540)
+            def book_prelude():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Honda Prelude')
+            book_honda_prelude = Button(window_prelude, text='Забронировать', command=book_prelude, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_honda_prelude.place(x = 350, y = 570)
+            # главный цикл
+            window_prelude.mainloop()
+
+        def stagea_search():
+            window_assortiment.destroy()
+            def exit_stagea():
+                window_stagea.destroy()
+                main = Main()
+                main.run()
+            window_stagea = Tk()
+            window_stagea.title('Nissan Stagea')
+            window_stagea.geometry('900x650+300+20')
+            window_stagea.resizable(False, False)
+            # настройка
+            stagea_label = Label(window_stagea, text='Nissan Stagea', font=('Arial',20), justify=CENTER, **header_padding)
+            stagea_label.place(x = 390, y = 10)
+            exit_stagea = Button(window_stagea, text='Выйти', command=exit_stagea, borderwidth=5,font=('Arial',16), width=10)
+            exit_stagea.place(x = 750, y = 20)
+            stagea_photo = Image.open("data\\stagea.png")
+            stagea_photo = stagea_photo.resize((440, 350), Image.ANTIALIAS)
+            stagea_photo = ImageTk.PhotoImage(stagea_photo)
+            stagea_label = Label(image = stagea_photo, borderwidth=0)
+            stagea_label.image = stagea_photo
+            stagea_label.place(x = 240, y = 70)
+            stagea_label = Label(window_stagea, text='Производитель: Nissan', font=font_header, justify=CENTER)
+            stagea_label.place(x = 240, y = 420)
+            stagea_label = Label(window_stagea, text='Модель: Stagea', font=font_header, justify=CENTER)
+            stagea_label.place(x = 240, y = 450)
+            stagea_label = Label(window_stagea, text='Тип кузова: 5-ти дверная', font=font_header, justify=CENTER)
+            stagea_label.place(x = 240, y = 480)
+            stagea_label = Label(window_stagea, text='Компоновка: заднеприводная', font=font_header, justify=CENTER)
+            stagea_label.place(x = 240, y = 510)
+            stagea_label = Label(window_stagea, text='Стоимость за час: 1500 рублей', font=font_header, justify=CENTER)
+            stagea_label.place(x = 240, y = 540)
+            def book_stagea():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Nissan Stagea')
+            book_stagea = Button(window_stagea, text='Забронировать', command=book_stagea, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_stagea.place(x = 350, y = 570)
+            # главный цикл
+            window_stagea.mainloop()
+        
+        def skyline_search():
+            window_assortiment.destroy()
+            def exit_skyline():
+                window_skyline.destroy()
+                main = Main()
+                main.run()
+            window_skyline = Tk()
+            window_skyline.title('Nissan Skyline')
+            window_skyline.geometry('900x650+300+20')
+            window_skyline.resizable(False, False)
+            # настройка
+            skyline_label = Label(window_skyline, text='Nissan Skyline', font=('Arial',20), justify=CENTER, **header_padding)
+            skyline_label.place(x = 390, y = 10)
+            exit_skyline = Button(window_skyline, text='Выйти', command=exit_skyline, borderwidth=5,font=('Arial',16), width=10)
+            exit_skyline.place(x = 750, y = 20)
+            skyline_photo = Image.open("data\\skyline.png")
+            skyline_photo = skyline_photo.resize((440, 350), Image.ANTIALIAS)
+            skyline_photo = ImageTk.PhotoImage(skyline_photo)
+            skyline_label = Label(image = skyline_photo, borderwidth=0)
+            skyline_label.image = skyline_photo
+            skyline_label.place(x = 240, y = 70)
+            skyline_label = Label(window_skyline, text='Производитель: Nissan', font=font_header, justify=CENTER)
+            skyline_label.place(x = 240, y = 420)
+            skyline_label = Label(window_skyline, text='Модель: Skyline GT-R R34', font=font_header, justify=CENTER)
+            skyline_label.place(x = 240, y = 450)
+            skyline_label = Label(window_skyline, text='Тип кузова: 2-x дверная', font=font_header, justify=CENTER)
+            skyline_label.place(x = 240, y = 480)
+            skyline_label = Label(window_skyline, text='Компоновка: полноприводная', font=font_header, justify=CENTER)
+            skyline_label.place(x = 240, y = 510)
+            skyline_label = Label(window_skyline, text='Стоимость за час: 6000 рублей', font=font_header, justify=CENTER)
+            skyline_label.place(x = 240, y = 540)
+            def book_skyline():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Nissan Skyline')
+            book_skyline = Button(window_skyline, text='Забронировать', command=book_skyline, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_skyline.place(x = 350, y = 570)
+            # главный цикл
+            window_skyline.mainloop()
+
+        def silvia_search():
+            window_assortiment.destroy()
+            def exit_silvia():
+                window_silvia.destroy()
+                main = Main()
+                main.run()
+            window_silvia = Tk()
+            window_silvia.title('Nissan Silvia s15')
+            window_silvia.geometry('900x650+300+20')
+            window_silvia.resizable(False, False)
+            # настройка
+            silvia_label = Label(window_silvia, text='Nissan Silvia s15', font=('Arial',20), justify=CENTER, **header_padding)
+            silvia_label.place(x = 390, y = 10)
+            exit_silvia = Button(window_silvia, text='Выйти', command=exit_silvia, borderwidth=5,font=('Arial',16), width=10)
+            exit_silvia.place(x = 750, y = 20)
+            silvia_photo = Image.open("data\\silvia.png")
+            silvia_photo = silvia_photo.resize((440, 350), Image.ANTIALIAS)
+            silvia_photo = ImageTk.PhotoImage(silvia_photo)
+            silvia_label = Label(image = silvia_photo, borderwidth=0)
+            silvia_label.image = silvia_photo
+            silvia_label.place(x = 240, y = 70)
+            silvia_label = Label(window_silvia, text='Производитель: Nissan', font=font_header, justify=CENTER)
+            silvia_label.place(x = 240, y = 420)
+            silvia_label = Label(window_silvia, text='Модель: Silvia s15', font=font_header, justify=CENTER)
+            silvia_label.place(x = 240, y = 450)
+            silvia_label = Label(window_silvia, text='Тип кузова: 2-х дверная', font=font_header, justify=CENTER)
+            silvia_label.place(x = 240, y = 480)
+            silvia_label = Label(window_silvia, text='Компоновка: заднеприводная', font=font_header, justify=CENTER)
+            silvia_label.place(x = 240, y = 510)
+            silvia_label = Label(window_silvia, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
+            silvia_label.place(x = 240, y = 540)
+            def book_silvia():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Nissan Silvia s15')
+            book_silvia = Button(window_silvia, text='Забронировать', command=book_silvia, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_silvia.place(x = 350, y = 570)
+            # главный цикл
+            window_silvia.mainloop()
+
+        def GTR_search():
+            window_assortiment.destroy()
+            def exit_GTR():
+                window_GTR.destroy()
+                main = Main()
+                main.run()
+            window_GTR = Tk()
+            window_GTR.title('Nissan GTR')
+            window_GTR.geometry('900x650+300+20')
+            window_GTR.resizable(False, False)
+            # настройка
+            GTR_label = Label(window_GTR, text='Nissan GTR', font=('Arial',20), justify=CENTER, **header_padding)
+            GTR_label.place(x = 390, y = 10)
+            exit_GTR = Button(window_GTR, text='Выйти', command=exit_GTR, borderwidth=5,font=('Arial',16), width=10)
+            exit_GTR.place(x = 750, y = 20)
+            GTR_photo = Image.open("data\\gtr.png")
+            GTR_photo = GTR_photo.resize((440, 350), Image.ANTIALIAS)
+            GTR_photo = ImageTk.PhotoImage(GTR_photo)
+            GTR_label = Label(image = GTR_photo, borderwidth=0)
+            GTR_label.image = GTR_photo
+            GTR_label.place(x = 240, y = 70)
+            GTR_label = Label(window_GTR, text='Производитель: Nissan', font=font_header, justify=CENTER)
+            GTR_label.place(x = 240, y = 420)
+            GTR_label = Label(window_GTR, text='Модель: GTR', font=font_header, justify=CENTER)
+            GTR_label.place(x = 240, y = 450)
+            GTR_label = Label(window_GTR, text='Тип кузова: 5-ти дверная', font=font_header, justify=CENTER)
+            GTR_label.place(x = 240, y = 480)
+            GTR_label = Label(window_GTR, text='Компоновка: заднеприводная', font=font_header, justify=CENTER)
+            GTR_label.place(x = 240, y = 510)
+            GTR_label = Label(window_GTR, text='Стоимость за час: 6500 рублей', font=font_header, justify=CENTER)
+            GTR_label.place(x = 240, y = 540)
+            def book_GTR():
+                messagebox.showinfo('Информация','Вы успешно забронировали машину Nissan GTR')
+            book_GTR = Button(window_GTR, text='Забронировать', command=book_GTR, borderwidth=5, width=20, height=1, font=('Arial',16))
+            book_GTR.place(x = 350, y = 570)
+            # главный цикл
+            window_GTR.mainloop()
+
         # главное окно приложения
         window_assortiment = Tk()
         # заголовок окна
@@ -288,7 +1099,13 @@ class Main:
 
         # настройка
         lk_label = Label(window_assortiment, text='Ассортимент', font=font_header, justify=CENTER, **header_padding)
-        lk_label.place(x = 150, y = 10)
+        lk_label.place(x = 170, y = 10)
+
+        search_entry = Entry(window_assortiment, width = 18, highlightthickness=1, relief='solid')
+        search_entry.place(x=5, y=27)
+
+        search_btn = Button(window_assortiment, command=search, text='Поиск', bg=color1, fg=color0)
+        search_btn.place(x=125, y=25)
 
         exit_main_menu = Button(window_assortiment, text='Выйти', command=exit_asortiment, borderwidth=5, width=10)
         exit_main_menu.place(x = 335, y = 20)
@@ -310,7 +1127,7 @@ class Main:
 
             exit_main_menu = Button(window_honda, text='Выйти', command=exit_honda, borderwidth=5, width=10)
             exit_main_menu.place(x = 250, y = 20)
-            
+
             def civic():
                 window_honda.destroy()
                 def exit_civic():
@@ -530,7 +1347,7 @@ class Main:
 
             exit_main_menu = Button(window_nissan, text='Выйти', command=exit_nissan, borderwidth=5, width=10)
             exit_main_menu.place(x = 250, y = 20)
-            
+
             def stagea():
                 window_nissan.destroy()
                 def exit_stagea():
@@ -754,6 +1571,7 @@ class Main:
 
             exit_main_menu = Button(window_porsche, text='Выйти', command=exit_porsche, borderwidth=5, width=10)
             exit_main_menu.place(x = 250, y = 20)
+
             
             def p911():
                 window_porsche.destroy()
@@ -978,6 +1796,7 @@ class Main:
 
             exit_main_menu = Button(window_toyota, text='Выйти', command=exit_toyota, borderwidth=5, width=10)
             exit_main_menu.place(x = 250, y = 20)
+
             
             def trueno():
                 window_toyota.destroy()

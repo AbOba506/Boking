@@ -4,6 +4,7 @@ from tkinter import messagebox
 import re
 import tkinter as tk
 from enter import Enter
+import sqlite3
 
 # шрифты и отступы
 font_header = ('Arial', 15)
@@ -13,6 +14,9 @@ base_padding = {'padx': 10, 'pady': 8}
 header_padding = {'padx': 10, 'pady': 12}
 header_padding_1 = {'padx': 10, 'pady': 7}
 
+username1 = ""
+password1 = ""
+
 class Data:
     def __init__(self):
         self.root = Tk()
@@ -21,20 +25,20 @@ class Data:
         self.root.resizable=(False, False)
     # Виджеты
         self.data_label = Label(self.root, text='Заполнение данных', font=('Arial', 12), justify=CENTER, **header_padding_1)
-        self.name_label = Label(self.root, text='Имя', font=('Arial', 12), **header_padding_1)
-        self.name_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12))
-        self.age_label = Label(self.root, text='Возраст', font=('Arial', 12), **header_padding_1)
-        self.age_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12))
-        self.driving_experience_label = Label(self.root, text='Опыт Вождения', font=('Arial', 12), **header_padding_1)
-        self.driving_experience_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12))
-        self.criminal_label = Label(self.root, text='Судимость', font=('Arial', 12), **header_padding_1)
-        self.criminal_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12))
-        self.phone_label = Label(self.root, text='Номер телефона', font=('Arial', 12), **header_padding_1)
-        self.phone_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12))
-        self.email_label = Label(self.root, text='E-mail', font=('Arial', 12), **header_padding_1)
-        self.email_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12))
-        self.card_label = Label(self.root, text='Card', font=('Arial', 12), **header_padding_1)
-        self.card_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12))
+        self.name_label = Label(self.root, text='Имя *', font=('Arial', 12), **header_padding_1)
+        self.name_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12), highlightthickness=1, relief='solid')
+        self.age_label = Label(self.root, text='Возраст *', font=('Arial', 12), **header_padding_1)
+        self.age_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12), highlightthickness=1, relief='solid')
+        self.driving_experience_label = Label(self.root, text='Опыт Вождения *', font=('Arial', 12), **header_padding_1)
+        self.driving_experience_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12), highlightthickness=1, relief='solid')
+        self.criminal_label = Label(self.root, text='Судимость *', font=('Arial', 12), **header_padding_1)
+        self.criminal_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12), highlightthickness=1, relief='solid')
+        self.phone_label = Label(self.root, text='Номер телефона *', font=('Arial', 12), **header_padding_1)
+        self.phone_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12), highlightthickness=1, relief='solid')
+        self.email_label = Label(self.root, text='E-mail *', font=('Arial', 12), **header_padding_1)
+        self.email_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12), highlightthickness=1, relief='solid')
+        self.card_label = Label(self.root, text='Card *', font=('Arial', 12), **header_padding_1)
+        self.card_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12), highlightthickness=1, relief='solid')
         self.send_btn = Button(self.root, text='Заполнить данные', command=self.data_clicked)
 
     def draw_widjets(self):
@@ -68,9 +72,46 @@ class Data:
         phone = self.phone_entry.get()
         email = self.email_entry.get()
         card  = self.card_entry.get()
+
         s = ' ' + name + ' ' + age + ' ' + driving_experience + ' ' + criminal + ' ' + phone + ' ' + email + ' ' + card + '\n'
         rez.write(s)
         rez.close()
+        txt_read = open('logins.txt', 'r')
+        username, password, name, age, driving_experience, criminal, phone, email, card = txt_read.readline().split()
+        try:
+            sqlite_connection = sqlite3.connect('data.db')
+            cursor = sqlite_connection.cursor()
+            print("connected to SQLite")
+            sqlite_create_table_query = '''CREATE TABLE IF NOT EXISTS sqlitedb_developers (
+                                        username TEXT NOT NULL,
+                                        password TEXT NOT NULL,
+                                        name TEXT NOT NULL,
+                                        age INT NOT NULL,
+                                        driving_experience INT NOT NULL,
+                                        criminal TEXT NOT NULL,
+                                        phone TEXT NOT NULL,
+                                        email TEXT NOT NULL,
+                                        card TEXT NOT NULL);'''
+            cursor = sqlite_connection.cursor()
+            cursor.execute(sqlite_create_table_query)
+            sqlite_connection.commit()
+            cursor = sqlite_connection.cursor()
+            sqlite_insert_with_param = """INSERT INTO sqlitedb_developers
+                                    (username, password, name, age, driving_experience, criminal, phone, email, card)
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"""
+            data_tuple = (username, password, name, int(age), int(driving_experience), criminal, phone, email, card)
+            cursor.execute(sqlite_insert_with_param, data_tuple)
+            print("data successfully inserted")
+            sqlite_connection.commit()
+            cursor.close()
+
+        except sqlite3.Error as error:
+            print("ERROR", error)
+        finally:
+            if sqlite_connection:
+                sqlite_connection.close()
+
+
         self.root.destroy()
         enter = Enter()
         enter.run()
@@ -84,9 +125,9 @@ class Registration:
 
         self.main_label = Label(self.root, text='Регистрация', font=font_header, justify=CENTER, **header_padding)
         self.username_label = Label(self.root, text='Имя пользователя', font=label_font , **base_padding)
-        self.username_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry)
+        self.username_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry, highlightthickness=1, relief='solid')
         self.password_label = Label(self.root, text='Пароль', font=label_font , **base_padding)
-        self.password_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry, show='*')
+        self.password_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry, show='*', highlightthickness=1, relief='solid')
         self.send_btn = Button(self.root, text='Зарегистрироваться', command=self.clicked)
 
     def clicked(self):
@@ -94,6 +135,7 @@ class Registration:
         # логин и пароль
         username = self.username_entry.get()
         password = self.password_entry.get()
+
         flag = 0
         while True:
             if (len(password)<3):
@@ -172,4 +214,3 @@ class Registration:
     def run(self):
         self.draw_widjets()
         self.root.mainloop()
-        

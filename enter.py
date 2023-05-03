@@ -21,9 +21,9 @@ class Enter:
 
         self.main_label = Label(self.root, text='Вход', font=font_header, justify=CENTER, **header_padding)
         self.username_label = Label(self.root, text='Имя пользователя', font=label_font , **base_padding)
-        self.username_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry)
+        self.username_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry, highlightthickness=1, relief='solid')
         self.password_label = Label(self.root, text='Пароль', font=label_font , **base_padding)
-        self.password_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry, show='*')
+        self.password_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry, show='*', highlightthickness=1, relief='solid')
         self.send_btn = Button(self.root, text='Войти', command=self.clicked)
 
     def clicked(self):
