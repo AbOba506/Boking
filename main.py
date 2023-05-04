@@ -4,9 +4,7 @@ from tkinter import messagebox
 import re
 import tkinter as tk
 from PIL import Image, ImageTk
-
-color0 = "#ffffff"
-color1 = "#4456F0"
+import sqlite3
 
 # шрифты и отступы
 font_header = ('Arial', 15)
@@ -15,6 +13,8 @@ font_entry = ('Arial', 12)
 label_font = ('Arial', 11)
 base_padding = {'padx': 10, 'pady': 8}
 header_padding = {'padx': 10, 'pady': 12}
+color0 = "#ffffff"
+color1 = "#4456F0"
 
 class Main:
     def __init__(self):
@@ -26,15 +26,15 @@ class Main:
         self.root.iconphoto(False, self.photo)
 
         self.bron_label = Label(self.root, text='Бронирование', font=('Arial', 15, 'bold'), justify=CENTER, **header_padding)
-        self.btn1 = tk.Button(self.root, text='Главная', command=self.main_page, font=('Arial', 15, 'bold'), borderwidth=5, width=15)
-        self.btn2 = tk.Button(self.root, text='Личный кабинет', command=self.lk, font=('Arial', 15, 'bold'), borderwidth=5, width=15)
-        self.btn3 = tk.Button(self.root, text='Ассортимент', command=self.def_assortiment,font=('Arial', 15, 'bold'), borderwidth=5, width=15)
+        self.btn1 = tk.Button(self.root, text='Главная', command=self.main_page, font=('Arial', 15, 'bold'), borderwidth=3, width=15, bg=color1, fg=color0)
+        self.btn2 = tk.Button(self.root, text='Личный кабинет', command=self.lk, font=('Arial', 15, 'bold'), borderwidth=3, width=15, bg=color1, fg=color0)
+        self.btn3 = tk.Button(self.root, text='Ассортимент', command=self.def_assortiment,font=('Arial', 15, 'bold'), borderwidth=3, width=15, bg=color1, fg=color0)
 
     def draw_widjets(self):
-        self.bron_label.grid(row=0, column=1)
-        self.btn1.grid(row=1, column=0)
-        self.btn2.grid(row=2, column=0)
-        self.btn3.grid(row=3, column=0)
+        self.bron_label.place(x=150, y=15)
+        self.btn1.place(x=10, y=60)
+        self.btn2.place(x=10, y=110)
+        self.btn3.place(x=10, y=160)
     
     def run(self):
         self.draw_widjets()
@@ -66,7 +66,7 @@ class Main:
         lk_label.grid(row=2, column=1)
         lk_label = Label(window_main_page, text='Honda Civic, Porshe 911, Nissan Skyline, Toyota Supra, Toyota Trueno', font=font_header, justify=CENTER, **header_padding)
         lk_label.grid(row=3, column=1)
-        exit_main_menu = Button(window_main_page, text='Выйти', command=exit_main, borderwidth=5, width=10)
+        exit_main_menu = Button(window_main_page, text='Выйти', command=exit_main, borderwidth=3, width=10, bg=color1, fg=color0)
         exit_main_menu.grid(row=0, column=2)
 
         window_main_page.grid_columnconfigure(0, minsize=100)
@@ -109,7 +109,7 @@ class Main:
             card_entry = Label(window_pay, text=card, font=('Arial', 12), **header_padding_1)
             card_entry.grid(row=1, column=1)
 
-            pay_button_out = Button(window_pay, text='Выйти', command=exit_pay, borderwidth=5, width=10)
+            pay_button_out = Button(window_pay, text='Выйти', command=exit_pay, width=10, borderwidth=3, bg=color1, fg=color0)
             pay_button_out.grid(row=0, column=2)
 
             window_pay.grid_columnconfigure(0, minsize=80)
@@ -118,6 +118,228 @@ class Main:
 
             # главный цикл
             window_pay.mainloop()
+
+        # Отдельное окно Список машин
+        def car_list_def():
+            window_lk.destroy()
+            # функция выхода на домашнюю страницу
+            def exit_cl():
+                window_cl.destroy()
+                main = Main()
+                main.run()
+            # главное окно приложения
+            window_cl = Tk()
+            # заголовок окна
+            window_cl.title('Список забронированных машин')
+            # размер окна
+            window_cl.geometry('450x250+400+150')
+            window_cl.resizable(False, False)
+            
+            # Получение данных из таблицы
+            try:
+                sqlite_connection = sqlite3.connect('data.db')
+                cursor = sqlite_connection.cursor()
+                sqlite_select_query = """SELECT civic, nsx, s2000, prelude, stagea, skyline, silvia, GTR, p911, cayenne, panamera,
+                    taycan, trueno, supra, mark_II, crown, rx_7, miata, roadster, rx_8 from user"""
+                cursor.execute(sqlite_select_query)
+                records = cursor.fetchone()
+                cursor.close()
+            except sqlite3.Error as error:
+                print("Error", error)
+            finally:
+                if sqlite_connection:
+                    sqlite_connection.close()
+
+
+            # настройка
+            cl_label = Label(window_cl, text='Список забронированных машин', font=font_header, justify=CENTER, **header_padding)
+            cl_label.grid(row=0, column=1)
+
+            civic_label = Label(window_cl, text='Honda Civic')
+            civic_label.place(x=10, y=50)
+            if records[0] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=100, y=50)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=100, y=50)
+                
+
+            nsx_label = Label(window_cl, text='Honda nsx')
+            nsx_label.place(x=10, y=70)
+            if records[1] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=100, y=70)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=100, y=70)
+
+            s2000_label = Label(window_cl, text='Honda s2000')
+            s2000_label.place(x=10, y=90)
+            if records[2] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=100, y=90)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=100, y=90)
+
+            prelude_label = Label(window_cl, text='Honda prelude')
+            prelude_label.place(x=10, y=110)
+            if records[3] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=100, y=110)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=100, y=110)
+            # Nissan
+            stagea_label = Label(window_cl, text='Nissan stagea')
+            stagea_label.place(x=10, y=130)
+            if records[4] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=100, y=130)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=100, y=130)
+
+            skyline_label = Label(window_cl, text='Nissan skyline')
+            skyline_label.place(x=10, y=150)
+            if records[5] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=100, y=150)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=100, y=150)
+
+            silvia_label = Label(window_cl, text='Nissan silvia')
+            silvia_label.place(x=10, y=170)
+            if records[6] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=100, y=170)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=100, y=170)
+
+            GTR_label = Label(window_cl, text='Nissan GTR')
+            GTR_label.place(x=10, y=190)
+            if records[7] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=100, y=190)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=100, y=190)
+            # Porshe
+            p911_label = Label(window_cl, text='Porshe p911')
+            p911_label.place(x=10, y=210)
+            if records[8] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=100, y=210)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=100, y=210)
+
+            cayenne_label = Label(window_cl, text='Porshe cayenne')
+            cayenne_label.place(x=10, y=230)
+            if records[9] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=100, y=230)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=100, y=230)
+
+            panamera_label = Label(window_cl, text='Porshe panamera')
+            panamera_label.place(x=200, y=50)
+            if records[10] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=290, y=50)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=290, y=50)
+
+            taycan_label = Label(window_cl, text='Porshe taycan')
+            taycan_label.place(x=200, y=70)
+            if records[11] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=290, y=70)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=290, y=70)
+            # Toyota
+            trueno_label = Label(window_cl, text='Toyota trueno')
+            trueno_label.place(x=200, y=90)
+            if records[12] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=290, y=90)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=290, y=90)
+
+            supra_label = Label(window_cl, text='Toyota supra')
+            supra_label.place(x=200, y=110)
+            if records[13] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=290, y=110)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=290, y=110)
+
+            mark_II_label = Label(window_cl, text='Toyota mark_II')
+            mark_II_label.place(x=200, y=130)
+            if records[14] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=290, y=130)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=290, y=130)
+
+            crown_label = Label(window_cl, text='Toyota crown')
+            crown_label.place(x=200, y=150)
+            if records[15] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=290, y=150)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=290, y=150)
+            # Mazda
+            rx_7_label = Label(window_cl, text='Mazda rx_7')
+            rx_7_label.place(x=200, y=170)
+            if records[16] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=290, y=170)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=290, y=170)
+
+            miata_label = Label(window_cl, text='Mazda miata')
+            miata_label.place(x=200, y=190)
+            if records[17] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=290, y=190)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=290, y=190)
+
+            roadster_label = Label(window_cl, text='Mazda roadster')
+            roadster_label.place(x=200, y=210)
+            if records[18] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=290, y=210)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=290, y=210)
+
+            rx_8_label = Label(window_cl, text='Mazda rx_8')
+            rx_8_label.place(x=200, y=230)
+            if records[19] == 1:
+                civic1_label = Label(window_cl, text='Yes')
+                civic1_label.place(x=290, y=230)
+            else:
+                civic2_label = Label(window_cl, text='No')
+                civic2_label.place(x=290, y=230)
+
+
+
+            cl_button_out = Button(window_cl, text='Выйти', command=exit_cl, borderwidth=3, width=10, bg=color1, fg=color0)
+            cl_button_out.place(x=350, y=12)
 
         # Отдельное окно Контактные данные
         def contact_data():
@@ -144,7 +366,7 @@ class Main:
             # настройка
             cd_label = Label(window_cd, text='Контактные данные', font=font_header, justify=CENTER, **header_padding)
             cd_label.grid(row=0, column=1)
-            cd_button_out = Button(window_cd, text='Выйти', command=exit_cd, borderwidth=5, width=10)
+            cd_button_out = Button(window_cd, text='Выйти', command=exit_cd, borderwidth=3, width=10, bg=color1, fg=color0)
             cd_button_out.grid(row=0, column=2)
 
             # метка номер телефона
@@ -222,7 +444,7 @@ class Main:
             pd_label9 = Label(window_pd, text=criminal, font=font_text, **header_padding)
             pd_label9.grid(row=6, column=1)
             # Выйти
-            pd_button_out = Button(window_pd, text='Выйти', command=exit_pd, borderwidth=5, width=10)
+            pd_button_out = Button(window_pd, text='Выйти', command=exit_pd, borderwidth=3, width=10, bg=color1, fg=color0)
             pd_button_out.grid(row=0, column=2)
             window_pd.grid_rowconfigure(0, minsize=4)
             window_pd.grid_rowconfigure(1, minsize=4)
@@ -250,22 +472,26 @@ class Main:
         # настройка
         lk_label = Label(window_lk, text='Личный кабинет', font=font_header, justify=CENTER, **header_padding)
         lk_label.grid(row=0, column=1)
-        pd_button_out = Button(window_lk, text='Выйти', command=exit_lk, borderwidth=5, width=10)
+        pd_button_out = Button(window_lk, text='Выйти', command=exit_lk, borderwidth=3, width=10, bg=color1, fg=color0)
         pd_button_out.grid(row=0, column=2)
         window_lk.grid_columnconfigure(0, minsize=70)
         window_lk.grid_columnconfigure(1, minsize=220)
 
         # кнопка Личные данные
-        pers_data = Button(window_lk, text='Личные данные', command=personal_data, borderwidth=5, width=15)
+        pers_data = Button(window_lk, text='Личные данные', command=personal_data, borderwidth=3, width=15, bg=color1, fg=color0)
         pers_data.grid(row=1, column=0)
 
         # кнопка Контактные данные
-        cont_data= Button(window_lk, text='Контактные данные', command=contact_data, borderwidth=5, width=15)
+        cont_data= Button(window_lk, text='Контактные данные', command=contact_data, borderwidth=3, width=15, bg=color1, fg=color0)
         cont_data.grid(row=2, column=0)
 
         # кнопка Оплата
-        pay = Button(window_lk, text='Оплата', command=pay_def, borderwidth=5, width=15)
+        pay = Button(window_lk, text='Оплата', command=pay_def, borderwidth=3, width=15, bg=color1, fg=color0)
         pay.grid(row=3, column=0)
+
+        # кнопка Список
+        car_list = Button(window_lk, text='Список машин', command=car_list_def, borderwidth=3, width=15, bg=color1, fg=color0)
+        car_list.place(x = 0, y = 190)
 
         window_lk.grid_rowconfigure(2, minsize=60)
 
@@ -341,7 +567,7 @@ class Main:
             # настройка
             rx_8_label = Label(window_rx_8, text='Mazda RX-8', font=('Arial',20), justify=CENTER, **header_padding)
             rx_8_label.place(x = 390, y = 10)
-            exit_rx_8 = Button(window_rx_8, text='Выйти', command=exit_rx_8, borderwidth=5,font=('Arial',16), width=10)
+            exit_rx_8 = Button(window_rx_8, text='Выйти', command=exit_rx_8,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_rx_8.place(x = 750, y = 20)
             rx_8_photo = Image.open("data\\rx8.png")
             rx_8_photo = rx_8_photo.resize((440, 350), Image.ANTIALIAS)
@@ -360,6 +586,21 @@ class Main:
             rx_8_label = Label(window_rx_8, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
             rx_8_label.place(x = 240, y = 540)
             def book_rx_8():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set rx_8 = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Mazda RX-8')
             book_rx_8 = Button(window_rx_8, text='Забронировать', command=book_rx_8, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_rx_8.place(x = 350, y = 570)
@@ -379,7 +620,7 @@ class Main:
             # настройка
             roadster_label = Label(window_roadster, text='Mazda Roadster', font=('Arial',20), justify=CENTER, **header_padding)
             roadster_label.place(x = 390, y = 10)
-            exit_roadster = Button(window_roadster, text='Выйти', command=exit_roadster, borderwidth=5,font=('Arial',16), width=10)
+            exit_roadster = Button(window_roadster, text='Выйти', command=exit_roadster,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_roadster.place(x = 750, y = 20)
             roadster_photo = Image.open("data\\roadster.png")
             roadster_photo = roadster_photo.resize((440, 350), Image.ANTIALIAS)
@@ -398,6 +639,21 @@ class Main:
             roadster_label = Label(window_roadster, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
             roadster_label.place(x = 240, y = 540)
             def book_roadster():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set roadster = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Mazda Roadster')
             book_roadster = Button(window_roadster, text='Забронировать', command=book_roadster, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_roadster.place(x = 350, y = 570)
@@ -417,7 +673,7 @@ class Main:
             # настройка
             miata_label = Label(window_miata, text='Mazda Miata', font=('Arial',20), justify=CENTER, **header_padding)
             miata_label.place(x = 390, y = 10)
-            exit_miata = Button(window_miata, text='Выйти', command=exit_miata, borderwidth=5,font=('Arial',16), width=10)
+            exit_miata = Button(window_miata, text='Выйти', command=exit_miata,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_miata.place(x = 750, y = 20)
             miata_photo = Image.open("data\\miata.png")
             miata_photo = miata_photo.resize((440, 350), Image.ANTIALIAS)
@@ -436,6 +692,21 @@ class Main:
             miata_label = Label(window_miata, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
             miata_label.place(x = 240, y = 540)
             def book_miata():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set miata = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Mazda Miata')
             book_miata = Button(window_miata, text='Забронировать', command=book_miata, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_miata.place(x = 350, y = 570)
@@ -455,7 +726,7 @@ class Main:
             # настройка
             rx_7_label = Label(window_rx_7, text='Mazda RX-7', font=('Arial',20), justify=CENTER, **header_padding)
             rx_7_label.place(x = 390, y = 10)
-            exit_rx_7 = Button(window_rx_7, text='Выйти', command=exit_rx_7, borderwidth=5,font=('Arial',16), width=10)
+            exit_rx_7 = Button(window_rx_7, text='Выйти', command=exit_rx_7,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_rx_7.place(x = 750, y = 20)
             rx_7_photo = Image.open("data\\rx7.png")
             rx_7_photo = rx_7_photo.resize((440, 350), Image.ANTIALIAS)
@@ -474,6 +745,21 @@ class Main:
             rx_7_label = Label(window_rx_7, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
             rx_7_label.place(x = 240, y = 540)
             def book_rx_7():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set rx_7 = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Mazda RX-7')
             book_rx_7 = Button(window_rx_7, text='Забронировать', command=book_rx_7, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_rx_7.place(x = 350, y = 570)
@@ -493,7 +779,7 @@ class Main:
             # настройка
             crown_label = Label(window_crown, text='Toyota Crown', font=('Arial',20), justify=CENTER, **header_padding)
             crown_label.place(x = 390, y = 10)
-            exit_crown = Button(window_crown, text='Выйти', command=exit_crown, borderwidth=5,font=('Arial',16), width=10)
+            exit_crown = Button(window_crown, text='Выйти', command=exit_crown,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_crown.place(x = 750, y = 20)
             crown_photo = Image.open("data\\crown.png")
             crown_photo = crown_photo.resize((440, 350), Image.ANTIALIAS)
@@ -512,6 +798,21 @@ class Main:
             crown_label = Label(window_crown, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
             crown_label.place(x = 240, y = 540)
             def book_crown():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set crown = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Toyota Crown')
             book_crown = Button(window_crown, text='Забронировать', command=book_crown, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_crown.place(x = 350, y = 570)
@@ -531,7 +832,7 @@ class Main:
             # настройка
             mark_II_label = Label(window_mark_II, text='Toyota Mark II', font=('Arial',20), justify=CENTER, **header_padding)
             mark_II_label.place(x = 390, y = 10)
-            exit_mark_II = Button(window_mark_II, text='Выйти', command=exit_mark_II, borderwidth=5,font=('Arial',16), width=10)
+            exit_mark_II = Button(window_mark_II, text='Выйти', command=exit_mark_II,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_mark_II.place(x = 750, y = 20)
             mark_II_photo = Image.open("data\\mark2.png")
             mark_II_photo = mark_II_photo.resize((440, 350), Image.ANTIALIAS)
@@ -550,6 +851,21 @@ class Main:
             mark_II_label = Label(window_mark_II, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
             mark_II_label.place(x = 240, y = 540)
             def book_mark_II():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set mark_II = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Toyota Mark II')
             book_mark_II = Button(window_mark_II, text='Забронировать', command=book_mark_II, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_mark_II.place(x = 350, y = 570)
@@ -569,7 +885,7 @@ class Main:
             # настройка
             supra_label = Label(window_supra, text='Toyota Supra', font=('Arial',20), justify=CENTER, **header_padding)
             supra_label.place(x = 390, y = 10)
-            exit_supra = Button(window_supra, text='Выйти', command=exit_supra, borderwidth=5,font=('Arial',16), width=10)
+            exit_supra = Button(window_supra, text='Выйти', command=exit_supra,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_supra.place(x = 750, y = 20)
             supra_photo = Image.open("data\\supra.png")
             supra_photo = supra_photo.resize((440, 350), Image.ANTIALIAS)
@@ -588,6 +904,21 @@ class Main:
             supra_label = Label(window_supra, text='Стоимость за час: 4000 рублей', font=font_header, justify=CENTER)
             supra_label.place(x = 240, y = 540)
             def book_supra():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set supra = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Toyota Supra')
             book_supra = Button(window_supra, text='Забронировать', command=book_supra, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_supra.place(x = 350, y = 570)
@@ -607,7 +938,7 @@ class Main:
             # настройка
             trueno_label = Label(window_trueno, text='Toyota Trueno', font=('Arial',20), justify=CENTER, **header_padding)
             trueno_label.place(x = 390, y = 10)
-            exit_trueno = Button(window_trueno, text='Выйти', command=exit_trueno, borderwidth=5,font=('Arial',16), width=10)
+            exit_trueno = Button(window_trueno, text='Выйти', command=exit_trueno,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_trueno.place(x = 750, y = 20)
             trueno_photo = Image.open("data\\trueno.png")
             trueno_photo = trueno_photo.resize((440, 350), Image.ANTIALIAS)
@@ -626,6 +957,21 @@ class Main:
             trueno_label = Label(window_trueno, text='Стоимость за час: 3000 рублей', font=font_header, justify=CENTER)
             trueno_label.place(x = 240, y = 540)
             def book_trueno():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set trueno = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Toyota Trueno')
             book_trueno = Button(window_trueno, text='Забронировать', command=book_trueno, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_trueno.place(x = 350, y = 570)
@@ -645,7 +991,7 @@ class Main:
             # настройка
             taycan_label = Label(window_taycan, text='Porsche Taycan', font=('Arial',20), justify=CENTER, **header_padding)
             taycan_label.place(x = 390, y = 10)
-            exit_taycan = Button(window_taycan, text='Выйти', command=exit_taycan, borderwidth=5,font=('Arial',16), width=10)
+            exit_taycan = Button(window_taycan, text='Выйти', command=exit_taycan,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_taycan.place(x = 750, y = 20)
             taycan_photo = Image.open("data\\taycan.png")
             taycan_photo = taycan_photo.resize((440, 350), Image.ANTIALIAS)
@@ -664,6 +1010,21 @@ class Main:
             taycan_label = Label(window_taycan, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
             taycan_label.place(x = 240, y = 540)
             def book_taycan():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set taycan = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Porsche Taycan')
             book_taycan = Button(window_taycan, text='Забронировать', command=book_taycan, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_taycan.place(x = 350, y = 570)
@@ -683,7 +1044,7 @@ class Main:
             # настройка
             panamera_label = Label(window_panamera, text='Porsche Panamera', font=('Arial',20), justify=CENTER, **header_padding)
             panamera_label.place(x = 390, y = 10)
-            exit_panamera = Button(window_panamera, text='Выйти', command=exit_panamera, borderwidth=5,font=('Arial',16), width=10)
+            exit_panamera = Button(window_panamera, text='Выйти', command=exit_panamera,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_panamera.place(x = 750, y = 20)
             panamera_photo = Image.open("data\\panamera.png")
             panamera_photo = panamera_photo.resize((440, 350), Image.ANTIALIAS)
@@ -702,6 +1063,21 @@ class Main:
             panamera_label = Label(window_panamera, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
             panamera_label.place(x = 240, y = 540)
             def book_panamera():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set panamera = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Porsche Panamera')
             book_panamera = Button(window_panamera, text='Забронировать', command=book_panamera, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_panamera.place(x = 350, y = 570)
@@ -721,7 +1097,7 @@ class Main:
             # настройка
             cayenne_label = Label(window_cayenne, text='Porsche Cayenne', font=('Arial',20), justify=CENTER, **header_padding)
             cayenne_label.place(x = 390, y = 10)
-            exit_cayenne = Button(window_cayenne, text='Выйти', command=exit_cayenne, borderwidth=5,font=('Arial',16), width=10)
+            exit_cayenne = Button(window_cayenne, text='Выйти', command=exit_cayenne,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_cayenne.place(x = 750, y = 20)
             cayenne_photo = Image.open("data\\cayenne.png")
             cayenne_photo = cayenne_photo.resize((440, 350), Image.ANTIALIAS)
@@ -740,6 +1116,21 @@ class Main:
             cayenne_label = Label(window_cayenne, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
             cayenne_label.place(x = 240, y = 540)
             def book_cayenne():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set cayenne = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Porsche Cayenne')
             book_cayenne = Button(window_cayenne, text='Забронировать', command=book_cayenne, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_cayenne.place(x = 350, y = 570)
@@ -759,7 +1150,7 @@ class Main:
             # настройка
             p911_label = Label(window_p911, text='Porsche 911', font=('Arial',20), justify=CENTER, **header_padding)
             p911_label.place(x = 390, y = 10)
-            exit_p911 = Button(window_p911, text='Выйти', command=exit_p911, borderwidth=5,font=('Arial',16), width=10)
+            exit_p911 = Button(window_p911, text='Выйти', command=exit_p911,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_p911.place(x = 750, y = 20)
             p911_photo = Image.open("data\\911.png")
             p911_photo = p911_photo.resize((440, 350), Image.ANTIALIAS)
@@ -778,6 +1169,21 @@ class Main:
             p911_label = Label(window_p911, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
             p911_label.place(x = 240, y = 540)
             def book_p911():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set p911 = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Porsche 911')
             book_p911 = Button(window_p911, text='Забронировать', command=book_p911, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_p911.place(x = 350, y = 570)
@@ -797,7 +1203,7 @@ class Main:
             # настройка
             honda_civic_label = Label(window_civic, text='Honda Civic', font=('Arial',20), justify=CENTER, **header_padding)
             honda_civic_label.place(x = 390, y = 10)
-            exit_honda_civic = Button(window_civic, text='Выйти', command=exit_civic, borderwidth=5,font=('Arial',16), width=10)
+            exit_honda_civic = Button(window_civic, text='Выйти', command=exit_civic,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_honda_civic.place(x = 750, y = 20)
             civic_photo = Image.open("data\\civic.png")
             civic_photo = civic_photo.resize((440, 350), Image.ANTIALIAS)
@@ -816,6 +1222,21 @@ class Main:
             honda_civic_label = Label(window_civic, text='Стоимость за час: 3500 рублей', font=font_header, justify=CENTER)
             honda_civic_label.place(x = 240, y = 540)
             def book_civic():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set civic = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Honda Civic')
             book_honda_civic = Button(window_civic, text='Забронировать', command=book_civic, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_honda_civic.place(x = 350, y = 570)
@@ -835,7 +1256,7 @@ class Main:
             # настройка
             honda_nsx_label = Label(window_nsx, text='Honda NSX', font=('Arial',20), justify=CENTER, **header_padding)
             honda_nsx_label.place(x = 390, y = 10)
-            exit_honda_nsx = Button(window_nsx, text='Выйти', command=exit_nsx, borderwidth=5,font=('Arial',16), width=10)
+            exit_honda_nsx = Button(window_nsx, text='Выйти', command=exit_nsx,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_honda_nsx.place(x = 750, y = 20)
             nsx_photo = Image.open("data\\nsx.png")
             nsx_photo = nsx_photo.resize((440, 350), Image.ANTIALIAS)
@@ -854,6 +1275,21 @@ class Main:
             honda_nsx_label = Label(window_nsx, text='Стоимость за час: 7000 рублей', font=font_header, justify=CENTER)
             honda_nsx_label.place(x = 240, y = 540)
             def book_nsx():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set nsx = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Honda NSX')
             book_honda_nsx = Button(window_nsx, text='Забронировать', command=book_nsx, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_honda_nsx.place(x = 350, y = 570)
@@ -873,7 +1309,7 @@ class Main:
             # настройка
             honda_s2000_label = Label(window_s2000, text='Honda S2000', font=('Arial',20), justify=CENTER, **header_padding)
             honda_s2000_label.place(x = 390, y = 10)
-            exit_honda_s2000 = Button(window_s2000, text='Выйти', command=exit_s2000, borderwidth=5,font=('Arial',16), width=10)
+            exit_honda_s2000 = Button(window_s2000, text='Выйти', command=exit_s2000,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_honda_s2000.place(x = 750, y = 20)
             s2000_photo = Image.open("data\\s2000.png")
             s2000_photo = s2000_photo.resize((440, 350), Image.ANTIALIAS)
@@ -892,6 +1328,21 @@ class Main:
             honda_s2000_label = Label(window_s2000, text='Стоимость за час: 4000 рублей', font=font_header, justify=CENTER)
             honda_s2000_label.place(x = 240, y = 540)
             def book_s2000():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set s2000 = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Honda S2000')
             book_honda_s2000 = Button(window_s2000, text='Забронировать', command=book_s2000, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_honda_s2000.place(x = 350, y = 570)
@@ -911,7 +1362,7 @@ class Main:
             # настройка
             honda_prelude_label = Label(window_prelude, text='Honda Prelude', font=('Arial',20), justify=CENTER, **header_padding)
             honda_prelude_label.place(x = 390, y = 10)
-            exit_honda_prelude = Button(window_prelude, text='Выйти', command=exit_prelude, borderwidth=5,font=('Arial',16), width=10)
+            exit_honda_prelude = Button(window_prelude, text='Выйти', command=exit_prelude,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_honda_prelude.place(x = 750, y = 20)
             prelude_photo = Image.open("data\\prelude.png")
             prelude_photo = prelude_photo.resize((440, 350), Image.ANTIALIAS)
@@ -930,6 +1381,21 @@ class Main:
             honda_prelude_label = Label(window_prelude, text='Стоимость за час: 2500 рублей', font=font_header, justify=CENTER)
             honda_prelude_label.place(x = 240, y = 540)
             def book_prelude():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set prelude = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Honda Prelude')
             book_honda_prelude = Button(window_prelude, text='Забронировать', command=book_prelude, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_honda_prelude.place(x = 350, y = 570)
@@ -949,7 +1415,7 @@ class Main:
             # настройка
             stagea_label = Label(window_stagea, text='Nissan Stagea', font=('Arial',20), justify=CENTER, **header_padding)
             stagea_label.place(x = 390, y = 10)
-            exit_stagea = Button(window_stagea, text='Выйти', command=exit_stagea, borderwidth=5,font=('Arial',16), width=10)
+            exit_stagea = Button(window_stagea, text='Выйти', command=exit_stagea,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_stagea.place(x = 750, y = 20)
             stagea_photo = Image.open("data\\stagea.png")
             stagea_photo = stagea_photo.resize((440, 350), Image.ANTIALIAS)
@@ -968,6 +1434,21 @@ class Main:
             stagea_label = Label(window_stagea, text='Стоимость за час: 1500 рублей', font=font_header, justify=CENTER)
             stagea_label.place(x = 240, y = 540)
             def book_stagea():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set stagea = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Nissan Stagea')
             book_stagea = Button(window_stagea, text='Забронировать', command=book_stagea, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_stagea.place(x = 350, y = 570)
@@ -987,7 +1468,7 @@ class Main:
             # настройка
             skyline_label = Label(window_skyline, text='Nissan Skyline', font=('Arial',20), justify=CENTER, **header_padding)
             skyline_label.place(x = 390, y = 10)
-            exit_skyline = Button(window_skyline, text='Выйти', command=exit_skyline, borderwidth=5,font=('Arial',16), width=10)
+            exit_skyline = Button(window_skyline, text='Выйти', command=exit_skyline,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_skyline.place(x = 750, y = 20)
             skyline_photo = Image.open("data\\skyline.png")
             skyline_photo = skyline_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1006,6 +1487,21 @@ class Main:
             skyline_label = Label(window_skyline, text='Стоимость за час: 6000 рублей', font=font_header, justify=CENTER)
             skyline_label.place(x = 240, y = 540)
             def book_skyline():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set skyline = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Nissan Skyline')
             book_skyline = Button(window_skyline, text='Забронировать', command=book_skyline, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_skyline.place(x = 350, y = 570)
@@ -1025,7 +1521,7 @@ class Main:
             # настройка
             silvia_label = Label(window_silvia, text='Nissan Silvia s15', font=('Arial',20), justify=CENTER, **header_padding)
             silvia_label.place(x = 390, y = 10)
-            exit_silvia = Button(window_silvia, text='Выйти', command=exit_silvia, borderwidth=5,font=('Arial',16), width=10)
+            exit_silvia = Button(window_silvia, text='Выйти', command=exit_silvia,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_silvia.place(x = 750, y = 20)
             silvia_photo = Image.open("data\\silvia.png")
             silvia_photo = silvia_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1044,6 +1540,21 @@ class Main:
             silvia_label = Label(window_silvia, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
             silvia_label.place(x = 240, y = 540)
             def book_silvia():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set silvia = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Nissan Silvia s15')
             book_silvia = Button(window_silvia, text='Забронировать', command=book_silvia, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_silvia.place(x = 350, y = 570)
@@ -1063,7 +1574,7 @@ class Main:
             # настройка
             GTR_label = Label(window_GTR, text='Nissan GTR', font=('Arial',20), justify=CENTER, **header_padding)
             GTR_label.place(x = 390, y = 10)
-            exit_GTR = Button(window_GTR, text='Выйти', command=exit_GTR, borderwidth=5,font=('Arial',16), width=10)
+            exit_GTR = Button(window_GTR, text='Выйти', command=exit_GTR,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
             exit_GTR.place(x = 750, y = 20)
             GTR_photo = Image.open("data\\gtr.png")
             GTR_photo = GTR_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1082,6 +1593,21 @@ class Main:
             GTR_label = Label(window_GTR, text='Стоимость за час: 6500 рублей', font=font_header, justify=CENTER)
             GTR_label.place(x = 240, y = 540)
             def book_GTR():
+                try:
+                    sqlite_connection = sqlite3.connect('data.db')
+                    cursor = sqlite_connection.cursor()
+                    usertxt = open('myusername.txt', 'r')
+                    username = usertxt.read()
+                    sql_update_query = """Update user set GTR = 1 where username = username"""
+                    cursor.execute(sql_update_query)
+                    sqlite_connection.commit()
+                    usertxt.close()
+                    cursor.close()
+                except sqlite3.Error as error:
+                    print("Error", error)
+                finally:
+                    if sqlite_connection:
+                        sqlite_connection.close()
                 messagebox.showinfo('Информация','Вы успешно забронировали машину Nissan GTR')
             book_GTR = Button(window_GTR, text='Забронировать', command=book_GTR, borderwidth=5, width=20, height=1, font=('Arial',16))
             book_GTR.place(x = 350, y = 570)
@@ -1104,10 +1630,10 @@ class Main:
         search_entry = Entry(window_assortiment, width = 18, highlightthickness=1, relief='solid')
         search_entry.place(x=5, y=27)
 
-        search_btn = Button(window_assortiment, command=search, text='Поиск', bg=color1, fg=color0)
+        search_btn = Button(window_assortiment, command=search, text='Поиск', borderwidth=3, bg=color1, fg=color0)
         search_btn.place(x=125, y=25)
 
-        exit_main_menu = Button(window_assortiment, text='Выйти', command=exit_asortiment, borderwidth=5, width=10)
+        exit_main_menu = Button(window_assortiment, text='Выйти', command=exit_asortiment, width=10, borderwidth=3, bg=color1, fg=color0)
         exit_main_menu.place(x = 335, y = 20)
         
         # функция перехода на Honda
@@ -1125,7 +1651,7 @@ class Main:
             lk_label = Label(window_honda, text='Honda', font=font_header, justify=CENTER, **header_padding)
             lk_label.place(x = 120, y = 10)
 
-            exit_main_menu = Button(window_honda, text='Выйти', command=exit_honda, borderwidth=5, width=10)
+            exit_main_menu = Button(window_honda, text='Выйти', command=exit_honda, width=10, borderwidth=3, bg=color1, fg=color0)
             exit_main_menu.place(x = 250, y = 20)
 
             def civic():
@@ -1141,7 +1667,7 @@ class Main:
                 # настройка
                 honda_civic_label = Label(window_civic, text='Honda Civic', font=('Arial',20), justify=CENTER, **header_padding)
                 honda_civic_label.place(x = 390, y = 10)
-                exit_honda_civic = Button(window_civic, text='Выйти', command=exit_civic, borderwidth=5,font=('Arial',16), width=10)
+                exit_honda_civic = Button(window_civic, text='Выйти', command=exit_civic, borderwidth=3,font=('Arial',16), width=10, bg=color1, fg=color0)
                 exit_honda_civic.place(x = 750, y = 20)
                 civic_photo = Image.open("data\\civic.png")
                 civic_photo = civic_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1160,6 +1686,22 @@ class Main:
                 honda_civic_label = Label(window_civic, text='Стоимость за час: 3500 рублей', font=font_header, justify=CENTER)
                 honda_civic_label.place(x = 240, y = 540)
                 def book_civic():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set civic = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Honda Civic')
                 book_honda_civic = Button(window_civic, text='Забронировать', command=book_civic, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_honda_civic.place(x = 350, y = 570)
@@ -1189,7 +1731,7 @@ class Main:
                 # настройка
                 honda_nsx_label = Label(window_nsx, text='Honda NSX', font=('Arial',20), justify=CENTER, **header_padding)
                 honda_nsx_label.place(x = 390, y = 10)
-                exit_honda_nsx = Button(window_nsx, text='Выйти', command=exit_nsx, borderwidth=5,font=('Arial',16), width=10)
+                exit_honda_nsx = Button(window_nsx, text='Выйти', command=exit_nsx,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_honda_nsx.place(x = 750, y = 20)
                 nsx_photo = Image.open("data\\nsx.png")
                 nsx_photo = nsx_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1208,6 +1750,21 @@ class Main:
                 honda_nsx_label = Label(window_nsx, text='Стоимость за час: 7000 рублей', font=font_header, justify=CENTER)
                 honda_nsx_label.place(x = 240, y = 540)
                 def book_nsx():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set nsx = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Honda NSX')
                 book_honda_nsx = Button(window_nsx, text='Забронировать', command=book_nsx, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_honda_nsx.place(x = 350, y = 570)
@@ -1237,7 +1794,7 @@ class Main:
                 # настройка
                 honda_s2000_label = Label(window_s2000, text='Honda S2000', font=('Arial',20), justify=CENTER, **header_padding)
                 honda_s2000_label.place(x = 390, y = 10)
-                exit_honda_s2000 = Button(window_s2000, text='Выйти', command=exit_s2000, borderwidth=5,font=('Arial',16), width=10)
+                exit_honda_s2000 = Button(window_s2000, text='Выйти', command=exit_s2000,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_honda_s2000.place(x = 750, y = 20)
                 s2000_photo = Image.open("data\\s2000.png")
                 s2000_photo = s2000_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1256,6 +1813,21 @@ class Main:
                 honda_s2000_label = Label(window_s2000, text='Стоимость за час: 4000 рублей', font=font_header, justify=CENTER)
                 honda_s2000_label.place(x = 240, y = 540)
                 def book_s2000():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set s2000 = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Honda S2000')
                 book_honda_s2000 = Button(window_s2000, text='Забронировать', command=book_s2000, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_honda_s2000.place(x = 350, y = 570)
@@ -1285,7 +1857,7 @@ class Main:
                 # настройка
                 honda_prelude_label = Label(window_prelude, text='Honda Prelude', font=('Arial',20), justify=CENTER, **header_padding)
                 honda_prelude_label.place(x = 390, y = 10)
-                exit_honda_prelude = Button(window_prelude, text='Выйти', command=exit_prelude, borderwidth=5,font=('Arial',16), width=10)
+                exit_honda_prelude = Button(window_prelude, text='Выйти', command=exit_prelude,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_honda_prelude.place(x = 750, y = 20)
                 prelude_photo = Image.open("data\\prelude.png")
                 prelude_photo = prelude_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1304,6 +1876,21 @@ class Main:
                 honda_prelude_label = Label(window_prelude, text='Стоимость за час: 2500 рублей', font=font_header, justify=CENTER)
                 honda_prelude_label.place(x = 240, y = 540)
                 def book_prelude():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set prelude = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Honda Prelude')
                 book_honda_prelude = Button(window_prelude, text='Забронировать', command=book_prelude, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_honda_prelude.place(x = 350, y = 570)
@@ -1345,7 +1932,7 @@ class Main:
             lk_label = Label(window_nissan, text='Nissan', font=font_header, justify=CENTER, **header_padding)
             lk_label.place(x = 120, y = 10)
 
-            exit_main_menu = Button(window_nissan, text='Выйти', command=exit_nissan, borderwidth=5, width=10)
+            exit_main_menu = Button(window_nissan, text='Выйти', command=exit_nissan, width=10, borderwidth=3, bg=color1, fg=color0)
             exit_main_menu.place(x = 250, y = 20)
 
             def stagea():
@@ -1361,7 +1948,7 @@ class Main:
                 # настройка
                 stagea_label = Label(window_stagea, text='Nissan Stagea', font=('Arial',20), justify=CENTER, **header_padding)
                 stagea_label.place(x = 390, y = 10)
-                exit_stagea = Button(window_stagea, text='Выйти', command=exit_stagea, borderwidth=5,font=('Arial',16), width=10)
+                exit_stagea = Button(window_stagea, text='Выйти', command=exit_stagea,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_stagea.place(x = 750, y = 20)
                 stagea_photo = Image.open("data\\stagea.png")
                 stagea_photo = stagea_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1380,6 +1967,21 @@ class Main:
                 stagea_label = Label(window_stagea, text='Стоимость за час: 1500 рублей', font=font_header, justify=CENTER)
                 stagea_label.place(x = 240, y = 540)
                 def book_stagea():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set stagea = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Nissan Stagea')
                 book_stagea = Button(window_stagea, text='Забронировать', command=book_stagea, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_stagea.place(x = 350, y = 570)
@@ -1410,7 +2012,7 @@ class Main:
                 # настройка
                 skyline_label = Label(window_skyline, text='Nissan Skyline', font=('Arial',20), justify=CENTER, **header_padding)
                 skyline_label.place(x = 390, y = 10)
-                exit_skyline = Button(window_skyline, text='Выйти', command=exit_skyline, borderwidth=5,font=('Arial',16), width=10)
+                exit_skyline = Button(window_skyline, text='Выйти', command=exit_skyline,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_skyline.place(x = 750, y = 20)
                 skyline_photo = Image.open("data\\skyline.png")
                 skyline_photo = skyline_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1429,6 +2031,21 @@ class Main:
                 skyline_label = Label(window_skyline, text='Стоимость за час: 6000 рублей', font=font_header, justify=CENTER)
                 skyline_label.place(x = 240, y = 540)
                 def book_skyline():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set skyline = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Nissan Skyline')
                 book_skyline = Button(window_skyline, text='Забронировать', command=book_skyline, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_skyline.place(x = 350, y = 570)
@@ -1459,7 +2076,7 @@ class Main:
                 # настройка
                 silvia_label = Label(window_silvia, text='Nissan Silvia s15', font=('Arial',20), justify=CENTER, **header_padding)
                 silvia_label.place(x = 390, y = 10)
-                exit_silvia = Button(window_silvia, text='Выйти', command=exit_silvia, borderwidth=5,font=('Arial',16), width=10)
+                exit_silvia = Button(window_silvia, text='Выйти', command=exit_silvia,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_silvia.place(x = 750, y = 20)
                 silvia_photo = Image.open("data\\silvia.png")
                 silvia_photo = silvia_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1478,6 +2095,21 @@ class Main:
                 silvia_label = Label(window_silvia, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
                 silvia_label.place(x = 240, y = 540)
                 def book_silvia():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set silvia = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Nissan Silvia s15')
                 book_silvia = Button(window_silvia, text='Забронировать', command=book_silvia, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_silvia.place(x = 350, y = 570)
@@ -1508,7 +2140,7 @@ class Main:
                 # настройка
                 GTR_label = Label(window_GTR, text='Nissan GTR', font=('Arial',20), justify=CENTER, **header_padding)
                 GTR_label.place(x = 390, y = 10)
-                exit_GTR = Button(window_GTR, text='Выйти', command=exit_GTR, borderwidth=5,font=('Arial',16), width=10)
+                exit_GTR = Button(window_GTR, text='Выйти', command=exit_GTR,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_GTR.place(x = 750, y = 20)
                 GTR_photo = Image.open("data\\gtr.png")
                 GTR_photo = GTR_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1527,6 +2159,21 @@ class Main:
                 GTR_label = Label(window_GTR, text='Стоимость за час: 6500 рублей', font=font_header, justify=CENTER)
                 GTR_label.place(x = 240, y = 540)
                 def book_GTR():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set GTR = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Nissan GTR')
                 book_GTR = Button(window_GTR, text='Забронировать', command=book_GTR, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_GTR.place(x = 350, y = 570)
@@ -1569,7 +2216,7 @@ class Main:
             lk_label = Label(window_porsche, text='Porsche', font=font_header, justify=CENTER, **header_padding)
             lk_label.place(x = 120, y = 10)
 
-            exit_main_menu = Button(window_porsche, text='Выйти', command=exit_porsche, borderwidth=5, width=10)
+            exit_main_menu = Button(window_porsche, text='Выйти', command=exit_porsche, width=10, borderwidth=3, bg=color1, fg=color0)
             exit_main_menu.place(x = 250, y = 20)
 
             
@@ -1586,7 +2233,7 @@ class Main:
                 # настройка
                 p911_label = Label(window_p911, text='Porsche 911', font=('Arial',20), justify=CENTER, **header_padding)
                 p911_label.place(x = 390, y = 10)
-                exit_p911 = Button(window_p911, text='Выйти', command=exit_p911, borderwidth=5,font=('Arial',16), width=10)
+                exit_p911 = Button(window_p911, text='Выйти', command=exit_p911,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_p911.place(x = 750, y = 20)
                 p911_photo = Image.open("data\\911.png")
                 p911_photo = p911_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1605,6 +2252,21 @@ class Main:
                 p911_label = Label(window_p911, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
                 p911_label.place(x = 240, y = 540)
                 def book_p911():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set p911 = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Porsche 911')
                 book_p911 = Button(window_p911, text='Забронировать', command=book_p911, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_p911.place(x = 350, y = 570)
@@ -1635,7 +2297,7 @@ class Main:
                 # настройка
                 cayenne_label = Label(window_cayenne, text='Porsche Cayenne', font=('Arial',20), justify=CENTER, **header_padding)
                 cayenne_label.place(x = 390, y = 10)
-                exit_cayenne = Button(window_cayenne, text='Выйти', command=exit_cayenne, borderwidth=5,font=('Arial',16), width=10)
+                exit_cayenne = Button(window_cayenne, text='Выйти', command=exit_cayenne,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_cayenne.place(x = 750, y = 20)
                 cayenne_photo = Image.open("data\\cayenne.png")
                 cayenne_photo = cayenne_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1654,6 +2316,21 @@ class Main:
                 cayenne_label = Label(window_cayenne, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
                 cayenne_label.place(x = 240, y = 540)
                 def book_cayenne():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set cayenne = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Porsche Cayenne')
                 book_cayenne = Button(window_cayenne, text='Забронировать', command=book_cayenne, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_cayenne.place(x = 350, y = 570)
@@ -1684,7 +2361,7 @@ class Main:
                 # настройка
                 panamera_label = Label(window_panamera, text='Porsche Panamera', font=('Arial',20), justify=CENTER, **header_padding)
                 panamera_label.place(x = 390, y = 10)
-                exit_panamera = Button(window_panamera, text='Выйти', command=exit_panamera, borderwidth=5,font=('Arial',16), width=10)
+                exit_panamera = Button(window_panamera, text='Выйти', command=exit_panamera,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_panamera.place(x = 750, y = 20)
                 panamera_photo = Image.open("data\\panamera.png")
                 panamera_photo = panamera_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1703,6 +2380,21 @@ class Main:
                 panamera_label = Label(window_panamera, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
                 panamera_label.place(x = 240, y = 540)
                 def book_panamera():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set panamera = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Porsche Panamera')
                 book_panamera = Button(window_panamera, text='Забронировать', command=book_panamera, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_panamera.place(x = 350, y = 570)
@@ -1733,7 +2425,7 @@ class Main:
                 # настройка
                 taycan_label = Label(window_taycan, text='Porsche Taycan', font=('Arial',20), justify=CENTER, **header_padding)
                 taycan_label.place(x = 390, y = 10)
-                exit_taycan = Button(window_taycan, text='Выйти', command=exit_taycan, borderwidth=5,font=('Arial',16), width=10)
+                exit_taycan = Button(window_taycan, text='Выйти', command=exit_taycan,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_taycan.place(x = 750, y = 20)
                 taycan_photo = Image.open("data\\taycan.png")
                 taycan_photo = taycan_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1752,6 +2444,21 @@ class Main:
                 taycan_label = Label(window_taycan, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
                 taycan_label.place(x = 240, y = 540)
                 def book_taycan():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set taycan = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Porsche Taycan')
                 book_taycan = Button(window_taycan, text='Забронировать', command=book_taycan, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_taycan.place(x = 350, y = 570)
@@ -1794,7 +2501,7 @@ class Main:
             lk_label = Label(window_toyota, text='Toyota', font=font_header, justify=CENTER, **header_padding)
             lk_label.place(x = 120, y = 10)
 
-            exit_main_menu = Button(window_toyota, text='Выйти', command=exit_toyota, borderwidth=5, width=10)
+            exit_main_menu = Button(window_toyota, text='Выйти', command=exit_toyota, width=10, borderwidth=3, bg=color1, fg=color0)
             exit_main_menu.place(x = 250, y = 20)
 
             
@@ -1811,7 +2518,7 @@ class Main:
                 # настройка
                 trueno_label = Label(window_trueno, text='Toyota Trueno', font=('Arial',20), justify=CENTER, **header_padding)
                 trueno_label.place(x = 390, y = 10)
-                exit_trueno = Button(window_trueno, text='Выйти', command=exit_trueno, borderwidth=5,font=('Arial',16), width=10)
+                exit_trueno = Button(window_trueno, text='Выйти', command=exit_trueno,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_trueno.place(x = 750, y = 20)
                 trueno_photo = Image.open("data\\trueno.png")
                 trueno_photo = trueno_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1830,6 +2537,21 @@ class Main:
                 trueno_label = Label(window_trueno, text='Стоимость за час: 3000 рублей', font=font_header, justify=CENTER)
                 trueno_label.place(x = 240, y = 540)
                 def book_trueno():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set trueno = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Toyota Trueno')
                 book_trueno = Button(window_trueno, text='Забронировать', command=book_trueno, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_trueno.place(x = 350, y = 570)
@@ -1860,7 +2582,7 @@ class Main:
                 # настройка
                 supra_label = Label(window_supra, text='Toyota Supra', font=('Arial',20), justify=CENTER, **header_padding)
                 supra_label.place(x = 390, y = 10)
-                exit_supra = Button(window_supra, text='Выйти', command=exit_supra, borderwidth=5,font=('Arial',16), width=10)
+                exit_supra = Button(window_supra, text='Выйти', command=exit_supra,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_supra.place(x = 750, y = 20)
                 supra_photo = Image.open("data\\supra.png")
                 supra_photo = supra_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1879,6 +2601,21 @@ class Main:
                 supra_label = Label(window_supra, text='Стоимость за час: 4000 рублей', font=font_header, justify=CENTER)
                 supra_label.place(x = 240, y = 540)
                 def book_supra():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set supra = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Toyota Supra')
                 book_supra = Button(window_supra, text='Забронировать', command=book_supra, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_supra.place(x = 350, y = 570)
@@ -1909,7 +2646,7 @@ class Main:
                 # настройка
                 mark_II_label = Label(window_mark_II, text='Toyota Mark II', font=('Arial',20), justify=CENTER, **header_padding)
                 mark_II_label.place(x = 390, y = 10)
-                exit_mark_II = Button(window_mark_II, text='Выйти', command=exit_mark_II, borderwidth=5,font=('Arial',16), width=10)
+                exit_mark_II = Button(window_mark_II, text='Выйти', command=exit_mark_II,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_mark_II.place(x = 750, y = 20)
                 mark_II_photo = Image.open("data\\mark2.png")
                 mark_II_photo = mark_II_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1928,6 +2665,21 @@ class Main:
                 mark_II_label = Label(window_mark_II, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
                 mark_II_label.place(x = 240, y = 540)
                 def book_mark_II():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set mark_II = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Toyota Mark II')
                 book_mark_II = Button(window_mark_II, text='Забронировать', command=book_mark_II, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_mark_II.place(x = 350, y = 570)
@@ -1958,7 +2710,7 @@ class Main:
                 # настройка
                 crown_label = Label(window_crown, text='Toyota Crown', font=('Arial',20), justify=CENTER, **header_padding)
                 crown_label.place(x = 390, y = 10)
-                exit_crown = Button(window_crown, text='Выйти', command=exit_crown, borderwidth=5,font=('Arial',16), width=10)
+                exit_crown = Button(window_crown, text='Выйти', command=exit_crown,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_crown.place(x = 750, y = 20)
                 crown_photo = Image.open("data\\crown.png")
                 crown_photo = crown_photo.resize((440, 350), Image.ANTIALIAS)
@@ -1977,6 +2729,21 @@ class Main:
                 crown_label = Label(window_crown, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
                 crown_label.place(x = 240, y = 540)
                 def book_crown():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set crown = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Toyota Crown')
                 book_crown = Button(window_crown, text='Забронировать', command=book_crown, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_crown.place(x = 350, y = 570)
@@ -2019,7 +2786,7 @@ class Main:
             lk_label = Label(window_mazda, text='Mazda', font=font_header, justify=CENTER, **header_padding)
             lk_label.place(x = 120, y = 10)
 
-            exit_main_menu = Button(window_mazda, text='Выйти', command=exit_mazda, borderwidth=5, width=10)
+            exit_main_menu = Button(window_mazda, text='Выйти', command=exit_mazda, width=10, borderwidth=3, bg=color1, fg=color0)
             exit_main_menu.place(x = 250, y = 20)
 
             def rx_7():
@@ -2035,7 +2802,7 @@ class Main:
                 # настройка
                 rx_7_label = Label(window_rx_7, text='Mazda RX-7', font=('Arial',20), justify=CENTER, **header_padding)
                 rx_7_label.place(x = 390, y = 10)
-                exit_rx_7 = Button(window_rx_7, text='Выйти', command=exit_rx_7, borderwidth=5,font=('Arial',16), width=10)
+                exit_rx_7 = Button(window_rx_7, text='Выйти', command=exit_rx_7,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_rx_7.place(x = 750, y = 20)
                 rx_7_photo = Image.open("data\\rx7.png")
                 rx_7_photo = rx_7_photo.resize((440, 350), Image.ANTIALIAS)
@@ -2054,6 +2821,21 @@ class Main:
                 rx_7_label = Label(window_rx_7, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
                 rx_7_label.place(x = 240, y = 540)
                 def book_rx_7():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set rx_7 = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Mazda RX-7')
                 book_rx_7 = Button(window_rx_7, text='Забронировать', command=book_rx_7, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_rx_7.place(x = 350, y = 570)
@@ -2084,7 +2866,7 @@ class Main:
                 # настройка
                 miata_label = Label(window_miata, text='Mazda Miata', font=('Arial',20), justify=CENTER, **header_padding)
                 miata_label.place(x = 390, y = 10)
-                exit_miata = Button(window_miata, text='Выйти', command=exit_miata, borderwidth=5,font=('Arial',16), width=10)
+                exit_miata = Button(window_miata, text='Выйти', command=exit_miata,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_miata.place(x = 750, y = 20)
                 miata_photo = Image.open("data\\miata.png")
                 miata_photo = miata_photo.resize((440, 350), Image.ANTIALIAS)
@@ -2103,6 +2885,21 @@ class Main:
                 miata_label = Label(window_miata, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
                 miata_label.place(x = 240, y = 540)
                 def book_miata():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set miata = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Mazda Miata')
                 book_miata = Button(window_miata, text='Забронировать', command=book_miata, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_miata.place(x = 350, y = 570)
@@ -2133,7 +2930,7 @@ class Main:
                 # настройка
                 roadster_label = Label(window_roadster, text='Mazda Roadster', font=('Arial',20), justify=CENTER, **header_padding)
                 roadster_label.place(x = 390, y = 10)
-                exit_roadster = Button(window_roadster, text='Выйти', command=exit_roadster, borderwidth=5,font=('Arial',16), width=10)
+                exit_roadster = Button(window_roadster, text='Выйти', command=exit_roadster,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_roadster.place(x = 750, y = 20)
                 roadster_photo = Image.open("data\\roadster.png")
                 roadster_photo = roadster_photo.resize((440, 350), Image.ANTIALIAS)
@@ -2152,6 +2949,21 @@ class Main:
                 roadster_label = Label(window_roadster, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
                 roadster_label.place(x = 240, y = 540)
                 def book_roadster():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set roadster = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Mazda Roadster')
                 book_roadster = Button(window_roadster, text='Забронировать', command=book_roadster, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_roadster.place(x = 350, y = 570)
@@ -2182,7 +2994,7 @@ class Main:
                 # настройка
                 rx_8_label = Label(window_rx_8, text='Mazda RX-8', font=('Arial',20), justify=CENTER, **header_padding)
                 rx_8_label.place(x = 390, y = 10)
-                exit_rx_8 = Button(window_rx_8, text='Выйти', command=exit_rx_8, borderwidth=5,font=('Arial',16), width=10)
+                exit_rx_8 = Button(window_rx_8, text='Выйти', command=exit_rx_8,font=('Arial',16), width=10, borderwidth=3, bg=color1, fg=color0)
                 exit_rx_8.place(x = 750, y = 20)
                 rx_8_photo = Image.open("data\\rx8.png")
                 rx_8_photo = rx_8_photo.resize((440, 350), Image.ANTIALIAS)
@@ -2201,6 +3013,21 @@ class Main:
                 rx_8_label = Label(window_rx_8, text='Стоимость за час: 5000 рублей', font=font_header, justify=CENTER)
                 rx_8_label.place(x = 240, y = 540)
                 def book_rx_8():
+                    try:
+                        sqlite_connection = sqlite3.connect('data.db')
+                        cursor = sqlite_connection.cursor()
+                        usertxt = open('myusername.txt', 'r')
+                        username = usertxt.read()
+                        sql_update_query = """Update user set rx_8 = 1 where username = username"""
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+                        usertxt.close()
+                        cursor.close()
+                    except sqlite3.Error as error:
+                        print("Error", error)
+                    finally:
+                        if sqlite_connection:
+                            sqlite_connection.close()
                     messagebox.showinfo('Информация','Вы успешно забронировали машину Mazda RX-8')
                 book_rx_8 = Button(window_rx_8, text='Забронировать', command=book_rx_8, borderwidth=5, width=20, height=1, font=('Arial',16))
                 book_rx_8.place(x = 350, y = 570)

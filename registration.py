@@ -13,9 +13,8 @@ label_font = ('Arial', 11)
 base_padding = {'padx': 10, 'pady': 8}
 header_padding = {'padx': 10, 'pady': 12}
 header_padding_1 = {'padx': 10, 'pady': 7}
-
-username1 = ""
-password1 = ""
+color0 = "#ffffff"
+color1 = "#4456F0"
 
 class Data:
     def __init__(self):
@@ -39,7 +38,7 @@ class Data:
         self.email_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12), highlightthickness=1, relief='solid')
         self.card_label = Label(self.root, text='Card *', font=('Arial', 12), **header_padding_1)
         self.card_entry = Entry(self.root, bg='#fff', fg='#444', font=('Arial', 12), highlightthickness=1, relief='solid')
-        self.send_btn = Button(self.root, text='Заполнить данные', command=self.data_clicked)
+        self.send_btn = Button(self.root, text='Заполнить данные', command=self.data_clicked, borderwidth=3, bg=color1, fg=color0)
 
     def draw_widjets(self):
         self.data_label.grid(row=0, column=1)
@@ -76,13 +75,13 @@ class Data:
         s = ' ' + name + ' ' + age + ' ' + driving_experience + ' ' + criminal + ' ' + phone + ' ' + email + ' ' + card + '\n'
         rez.write(s)
         rez.close()
-        txt_read = open('logins.txt', 'r')
-        username, password, name, age, driving_experience, criminal, phone, email, card = txt_read.readline().split()
         try:
             sqlite_connection = sqlite3.connect('data.db')
             cursor = sqlite_connection.cursor()
-            print("connected to SQLite")
-            sqlite_create_table_query = '''CREATE TABLE IF NOT EXISTS sqlitedb_developers (
+            f_read = open("logins.txt", "r")
+            last_line = f_read.readlines()[-1]
+            username, password, name, age, driving_experience, criminal, phone, email, card = last_line.split()
+            sqlite_create_table_query = '''CREATE TABLE IF NOT EXISTS user (
                                         username TEXT NOT NULL,
                                         password TEXT NOT NULL,
                                         name TEXT NOT NULL,
@@ -91,26 +90,47 @@ class Data:
                                         criminal TEXT NOT NULL,
                                         phone TEXT NOT NULL,
                                         email TEXT NOT NULL,
-                                        card TEXT NOT NULL);'''
+                                        card TEXT NOT NULL,
+                                        civic INT NOT NULL, 
+                                        nsx INT NOT NULL,
+                                        s2000 INT NOT NULL,
+                                        prelude INT NOT NULL,
+                                        stagea INT NOT NULL,
+                                        skyline INT NOT NULL,
+                                        silvia INT NOT NULL,
+                                        GTR INT NOT NULL,
+                                        p911 INT NOT NULL,
+                                        cayenne INT NOT NULL,
+                                        panamera INT NOT NULL,
+                                        taycan INT NOT NULL,
+                                        trueno INT NOT NULL,
+                                        supra INT NOT NULL,
+                                        mark_II INT NOT NULL,
+                                        crown INT NOT NULL,
+                                        rx_7 INT NOT NULL,
+                                        miata INT NOT NULL,
+                                        roadster INT NOT NULL,
+                                        rx_8 INT NOT NULL)'''
             cursor = sqlite_connection.cursor()
             cursor.execute(sqlite_create_table_query)
             sqlite_connection.commit()
+            zero = 0
             cursor = sqlite_connection.cursor()
-            sqlite_insert_with_param = """INSERT INTO sqlitedb_developers
-                                    (username, password, name, age, driving_experience, criminal, phone, email, card)
-                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"""
-            data_tuple = (username, password, name, int(age), int(driving_experience), criminal, phone, email, card)
+            sqlite_insert_with_param = """INSERT INTO user
+                                    (username, password, name, age, driving_experience, criminal, phone, email, card, 
+                                    civic, nsx, s2000, prelude, stagea, skyline, silvia, GTR, p911, cayenne, panamera,
+                                    taycan, trueno, supra, mark_II, crown, rx_7, miata, roadster, rx_8)
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
+            data_tuple = (username, password, name, int(age), int(driving_experience), criminal, phone, email, card, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero)
             cursor.execute(sqlite_insert_with_param, data_tuple)
             print("data successfully inserted")
             sqlite_connection.commit()
             cursor.close()
-
         except sqlite3.Error as error:
             print("ERROR", error)
         finally:
             if sqlite_connection:
                 sqlite_connection.close()
-
 
         self.root.destroy()
         enter = Enter()
@@ -128,7 +148,7 @@ class Registration:
         self.username_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry, highlightthickness=1, relief='solid')
         self.password_label = Label(self.root, text='Пароль', font=label_font , **base_padding)
         self.password_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry, show='*', highlightthickness=1, relief='solid')
-        self.send_btn = Button(self.root, text='Зарегистрироваться', command=self.clicked)
+        self.send_btn = Button(self.root, text='Зарегистрироваться', command=self.clicked, borderwidth=3, bg=color1, fg=color0)
 
     def clicked(self):
         output=open('logins.txt','+r')

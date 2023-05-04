@@ -4,6 +4,7 @@ from tkinter import messagebox
 import re
 import tkinter as tk
 from main import Main
+import sqlite3
 
 # шрифты и отступы
 font_header = ('Arial', 15)
@@ -11,6 +12,8 @@ font_entry = ('Arial', 12)
 label_font = ('Arial', 11)
 base_padding = {'padx': 10, 'pady': 8}
 header_padding = {'padx': 10, 'pady': 12}
+color0 = "#ffffff"
+color1 = "#4456F0"
 
 class Enter:
     def __init__(self):
@@ -24,7 +27,7 @@ class Enter:
         self.username_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry, highlightthickness=1, relief='solid')
         self.password_label = Label(self.root, text='Пароль', font=label_font , **base_padding)
         self.password_entry = Entry(self.root, bg='#fff', fg='#444', font=font_entry, show='*', highlightthickness=1, relief='solid')
-        self.send_btn = Button(self.root, text='Войти', command=self.clicked)
+        self.send_btn = Button(self.root, text='Войти', command=self.clicked, borderwidth=3, bg=color1, fg=color0)
 
     def clicked(self):
         output = open('logins.txt','+r')
@@ -41,9 +44,9 @@ class Enter:
             if (username == username_in_file and password == password_in_file):
                 self.root.destroy()
                 s1 = 1
+                myusername.write(username + ' ' + password + ' ' + name + ' ' +  age + ' ' + driving_experience + ' ' + criminal + ' ' + phone + ' ' + email + ' ' + card + ' ')
                 main = Main()
                 main.run()
-                myusername.write(username + ' ' + password + ' ' + name + ' ' +  age + ' ' + driving_experience + ' ' + criminal + ' ' + phone + ' ' + email + ' ' + card + ' ')
             else:
                 s2 = 0
         if (s1 == 0 and s2 ==0 ):
